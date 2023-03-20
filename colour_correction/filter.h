@@ -217,16 +217,26 @@ public:
         //delete[] gray_img;
     }
 
-    int width, height, channels;
+   /* int width, height, channels;
     unsigned char* corrected_img;
+    int gray_channels;*/
+
+    unsigned char* corrected_img;
+
+    int width, height, channels;
+
     int gray_channels;
-
-protected:
-
-private:
-	unsigned char* img_data;
+    unsigned char* img_data;
     //unsigned char* gray_img;
     char const* img_path;
     char const* save_path;
+
+protected:
+
+    //edge_detect constructor - accessible to derived classes
+    //Filter(unsigned char* corrected_img, int width, int height, int channels) :
+    //    corrected_img(corrected_img), width(width), height(height), channels(channels) {}
+
+private:
 		
 };

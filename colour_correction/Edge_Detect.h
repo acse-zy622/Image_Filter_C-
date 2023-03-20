@@ -5,16 +5,12 @@ template <class T>
 class Edge {
 public:
 
-    /*Edge(unsigned char* corrected_img, int width, int height) : Filter<T>(corrected_img, width, height){
-    }*/
-
-    //Edge() : input(nullptr), output(nullptr), width(0), height(0), gray_channels(0) {}
-
-    Edge(unsigned char* corrected_img, int w, int h, int channel) {
+    Edge(unsigned char* corrected_img, int w, int h, int channel, const char* sv_pth){
         input = corrected_img;
         width = w;
         height = h;
         channels = channel;
+        save_path = sv_pth;
     }
 
     //Needs to Inherit (input width and height)
@@ -49,6 +45,7 @@ public:
                 int magnitude = abs(valx) + abs(valy);
            
                 //*( output + i * width + j) = magnitude > 225 ? 225 : magnitude;
+
                 output[i * width + j] = magnitude > 225 ? 225 : magnitude;
                 //output[i * image_width + j + 1] = output[i * image_width + j];
 
@@ -57,10 +54,10 @@ public:
         
     }
 
-    void SaveImg_remove() {
+    void SaveImg() {
         cout << "We are at the save location";
         //int success = stbi_write_png(save_path, width, height, gray_channels, gray_img, 0);
-        int success = stbi_write_png("GraceHopper_test_edge.png", width, height, channels, output, 0);
+        int success = stbi_write_png(save_path, width, height, channels, output, 0);
         std::cout << "Success, Image has been saved";
 
     }
@@ -70,5 +67,5 @@ private:
     unsigned char* output;
     int width, height;
     int channels;
-    char const* save_path = "gracehopper_test_edge.png";
+    char const* save_path;
 };
