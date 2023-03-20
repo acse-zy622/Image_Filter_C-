@@ -63,6 +63,22 @@ public:
         }
     }
 
+
+    // adjust get index for 3d filters.
+    const std::vector<Image>& getImageBatch(int batch_number, int kernal_length, int total_length) {
+        std::vector<Image> v;
+        if (total_length >= images.size()) {
+            throw std::out_of_range("Image index out of range");
+        }
+        else {
+            for (int i = batch_number * kernal_length; i < batch_number * kernal_length + kernal_length - 1; i++) {
+                v.push_back(images[i]);
+            }       
+            return v;
+        }
+    }
+   
+
     // destructor for the volume.
     ~Volume() {
         for (auto& img : images) {
