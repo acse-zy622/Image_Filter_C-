@@ -19,12 +19,13 @@ int main() {
 
     // Read in image file
     data = stbi_load("example.png", &w, &h, &c, 0);
-
+    
+    
     // Print image size to screen
     std::cout << "Image loaded with size " << w << " x " << h << " with " << c << " channel(s)." << std::endl; 
 
     // Save image to new filename
-    int success = stbi_write_png("output.png", w, h, c, data, 0);
+    int success = stbi_write_png(output.png", w, h, c, data, 0);
 
     // Deallocate memory
     stbi_image_free(data);
