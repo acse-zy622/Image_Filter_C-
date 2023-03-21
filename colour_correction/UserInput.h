@@ -35,6 +35,7 @@ public:
             }
             else if (decider == 'n') {
                 cout << " Saving as: " << img_path << endl;
+                save_path = img_path;
                 cout << endl;
             }
             else {
@@ -50,8 +51,8 @@ public:
         bool selected = false;
 
         unordered_map<int, string> overview = { {11, "GrayScale"}, {12, "ColourCorrection"}, {13, "AutoBrightness"},
-                                              {21, "BoxBlur"}, {22, "MedianBlur"}, {23, "GaussBlur"}, {30, "Sobel"},
-                                              {31, "Prewitt"} };
+                                              {21, "BoxBlur"}, {22, "MedianBlur"}, {23, "GaussBlur"}, {31, "Sobel"},
+                                              {32, "Prewitt"} };
 
         while (selected != true){
             cout << "Hello! You have selected Quick Menu\n";
@@ -133,6 +134,24 @@ public:
         int filter_key = stoi(s);
 
         return filter_key;
+
+    }
+
+    int BrightnessRequest() {
+
+        bool valid = false;
+        int user_brightness;
+
+        while (valid != true) {
+            cout << "\nPlease enter a brightness within the range of -255 to 255: ";
+            cin >> user_brightness;
+            if (!isdigit(user_brightness)) {
+                valid = true;
+                
+            }  
+        }
+
+        return user_brightness;  
 
     }
 };

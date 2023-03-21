@@ -24,6 +24,7 @@ public:
         save_path = s_path;
         }
 
+
     void ApplyGrayScale() {
 
         //// Read in image file
@@ -54,14 +55,6 @@ public:
             // cast this to unsigned 8 bit integer
             // this ensures pixel value is represeneted by exactly one byte (standard)
             *output_pixel = static_cast<uint8_t>((*input_pixel + *(input_pixel + 1) + *(input_pixel + 2)) / 3.0);
-            
-            // This will store the alpha channel in the second channel of the grayscale image
-            //if (channels == 4) {
-            //    //*(output_pixel + 1) = *(input_pixel + 3);
-            //    //testing storing the gray channel elsewhere
-            //    *(output_pixel + 1) = *(input_pixel + 3);
-            //    //channels = 1;
-            //}
         }
         channels = gray_channels;
     }
@@ -113,7 +106,8 @@ public:
 
     }
 
-    void Brightness(int &brightness, bool auto_colour, bool auto_bright) {
+
+    void Brightness(int& brightness) {
         //// Read in image file
         img_data = stbi_load(img_path, &width, &height, &channels, 0);
         // This part is being repeated (DRY!!!)
@@ -134,78 +128,23 @@ public:
             blue_total += *(input_pixel + 2);
         }
 
-        map<char, double> inten_avg = { {'r', red_total / pixel_total}, {'g', green_total / pixel_total}, {'b', blue_total / pixel_total} };
+        double red_avg = red_total / (double)pixel_total;
+        double green_avg = green_total / (double)pixel_total;
+        double blue_avg = blue_total / (double)pixel_total;
 
-        if (auto_colour == true) {
-            auto max_intensity = inten_avg.rbegin();
-            double red_scale = max_intensity->second / inten_avg['r'];
-            double green_scale = max_intensity->second / inten_avg['g'];
-            double blue_scale = max_intensity->second / inten_avg['b'];
+        double red_scale = brightness / red_avg;
+        double green_scale = brightness / green_avg;
+        double blue_scale = brightness / blue_avg;
 
-            for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
-
-                *output_pixel = std::min((*input_pixel * red_scale), 255.0);
-                *(output_pixel + 1) = std::min((*(input_pixel + 1) * green_scale), 255.0);
-                *(output_pixel + 2) = std::min((*(input_pixel + 2) * blue_scale), 255.0);
-
-            }
-            cout << "Auto Colour correction was a success!" << endl;
+        for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
+            *output_pixel = std::max(0.0, std::min((*input_pixel) * red_scale, 255.0));
+            *(output_pixel + 1) = std::max(0.0, std::min((*(input_pixel + 1)) * green_scale, 255.0));
+            *(output_pixel + 2) = std::max(0.0, std::min((*(input_pixel + 2)) * blue_scale, 255.0));
         }
-        // going to change this condition for ease of use
-        else if (auto_bright == true) {
-            // needs to be divided by img_size as it is applied to all the channels
-            cout << brightness << endl;
-            /*double red_scale = (brightness - inten_avg['r'])/ inten_avg['r'];
-            double green_scale = (brightness - inten_avg['g'])/ inten_avg['g'];
-            double blue_scale = (brightness - inten_avg['b'])/ inten_avg['b'];*/
-            // Changing to as before
-            double red_scale = (brightness - inten_avg['r']) / pixel_total;
-            double green_scale = (brightness - inten_avg['g']) / pixel_total;
-            double blue_scale = (brightness - inten_avg['b']) / pixel_total;
 
-            //sanity check for instensity averages
-            cout << inten_avg['r'] << endl;
-            cout << inten_avg['g'] << endl;
-            cout << inten_avg['b'] << endl;
-
-
-            //sanity check for instensity averages
-            cout << red_scale << endl;
-            cout << green_scale << endl;
-            cout << blue_scale << endl;
-
-            for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
-
-                // need to clamp
-                *output_pixel = std::max(0.0, std::min((*input_pixel - inten_avg['r']) * red_scale + *input_pixel, 255.0));
-                *(output_pixel + 1) = std::max(0.0, std::min((*(input_pixel + 1) - inten_avg['r']) * green_scale + *(input_pixel + 1), 255.0));
-                *(output_pixel + 1) = std::max(0.0, std::min((*(input_pixel + 2) - inten_avg['r']) * blue_scale + *(input_pixel + 2), 255.0));
-
-
-            }
-            cout << "Auto Brightness was a success!" << endl;
-
-            // Need a pixel sanity check
-
-            for (unsigned char* test_pixel = corrected_img; test_pixel != corrected_img + img_size; test_pixel += channels) {
-
-                red_total += *test_pixel; // not sure if its ordered like this for every image type
-                green_total += *(test_pixel + 1);
-                blue_total += *(test_pixel + 2);
-            }
-
-            int red_total_test = 0;
-            int green_total_test = 0;
-            int blue_total_test = 0;
-            map<char, double> final_avg = { {'r', red_total / pixel_total}, {'g', green_total / pixel_total}, {'b', blue_total / pixel_total} };
-
-            cout << "Sanity check for end result" << endl;
-            cout << final_avg['r'] << endl;
-            cout << final_avg['g'] << endl;
-            cout << final_avg['b'] << endl;
-
-        }
     }
+
+
 
     void SaveImg() {
 
@@ -228,8 +167,8 @@ public:
     int gray_channels;
     unsigned char* img_data;
     //unsigned char* gray_img;
-    char const* img_path;
-    char const* save_path;
+    char const* img_path = nullptr;
+    char const* save_path = nullptr;
 
 protected:
 

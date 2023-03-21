@@ -6,6 +6,7 @@
 // Written by T.M. Davison (2023)
 
 #include "filter.h"
+#include "Blur.h"
 #include "Edge_Detect.h"
 #include "UserInput.h"
 #include <iostream>
@@ -19,8 +20,10 @@ using namespace std;
 
 int main() {
 
-    int bright = 128;
+    int bright;
     int filter_key;
+    int kernel_size = 0;
+    float sigma = 0;
 
     // UserInterface Options
     char quick;
@@ -35,43 +38,62 @@ int main() {
        filter_key = user_funcs.FilterMenu();
     }
 
+    //setting user variables for blur
+    if (filter_key > 20 && filter_key < 30) {
+        cout << "\nPlease specify the kernel size: ";
+        cin >> kernel_size;
+        cout << "\nPlease specify the sigma: ";
+        cin >> sigma;
+    }
+
+
     user_funcs.UserPathRequest();
     user_funcs.UserSavePath();
 
     // Initialise the Object
     Filter<int> black_white(user_funcs.img_path.c_str(), user_funcs.save_path.c_str());
-    Edge<int> edge_detect(black_white.corrected_img, black_white.width, black_white.height, black_white.channels, black_white.save_path);
+    Blur<int> blur_img(user_funcs.img_path.c_str(), user_funcs.save_path.c_str(), kernel_size, sigma);
+    //Edge<int> edge_detect(black_white.corrected_img, black_white.width, black_white.height, black_white.channels, black_white.save_path);
 
 
+    // map for Edge
     unordered_map<int, std::function<void()>> overview = {
     {11, [&]() { black_white.ApplyGrayScale(); }},
     {12, [&]() { black_white.AutoColourBalance(); }},
-    {30, [&]() { edge_detect.Sobel(); }},
-    };
+    {21, [&]() { blur_img.box_blur(); }},
+    {22, [&]() { blur_img.gaussian_blur(); }},
+    {23, [&]() { blur_img.median_blur(); }} };
 
+    // Calling the Filter key for colour and Blur class
     if (overview.find(filter_key) != overview.end()) {
+        
         overview[filter_key]();  // Call the method
+
+        if (filter_key < 20) {
+            black_white.SaveImg();
+        }
+        else if (filter_key > 20 && filter_key < 30) {
+            blur_img.SaveImg();
+        }
+
+    }
+    // setting user brightness
+    else if (filter_key == 13) {
+        bright = user_funcs.BrightnessRequest();
+        black_white.Brightness(bright);
+        black_white.SaveImg();
     }
     else {
-        cout << "Oh No - Thats not a proper key";
+        black_white.ApplyGrayScale();
+        Edge<int> edge_detect(black_white.corrected_img, black_white.width, black_white.height, black_white.channels, black_white.save_path);
+
+        unordered_map<int, std::function<void()>> edge_overview = {{31, [&]() { edge_detect.Sobel(); }},
+                                                                   {32, [&]() { edge_detect.prewitt_edge_detect(); }} };
+
+        edge_overview[filter_key]();
+        edge_detect.SaveImg();
     }
-
-    // need a way to handle these (ideally needs to be a shared member)
-    //black_white.SaveImg();
-    edge_detect.SaveImg();
-    ////black_white.AutoColourBalance();
-    //black_white.ApplyGrayScale();
-
-
-    //cout << "this is my gray channels: " << black_white.gray_channels << endl;
-    //cout << "this is my normal channels: " << black_white.channels << endl;
-    //Edge<int> edge_detect(black_white.corrected_img, black_white.width, black_white.height, black_white.channels, black_white.save_path);
-    //edge_detect.Sobel();
-    //
-
-    ////black_white.Brightness(bright, false, true);
-    ////black_white.SaveImg();
-    //edge_detect.SaveImg();
+    
 
     return 0;
 }
