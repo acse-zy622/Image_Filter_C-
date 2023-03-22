@@ -1,60 +1,48 @@
-// VolumeOfData.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-#include <filesystem>
-#include <iostream>
+#include "Volume.h"
 #include <string>
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-#include <vector>
 
 
-// Shortens the amount I need to type below.
+// Constructor for the volume
+Volume::Volume() {}
 
-// the element type in vectors.
-struct Image {
-    int width;
-    int height;
-    int channels;
-    unsigned char* data;
-};
-
-class Volume {
-public:
-    // Constructor for Volume
-    Volume() {}
-    // Add an image to the volume
-    void addImage(const char* filename) {
+// Add an image to the volume.
+void Volume::addImage(const char* filename) {
         int w, h, c;
         unsigned char* data = stbi_load(filename, &w, &h, &c, 0);
         if (!data) {
             std::cerr << "Failed to load image: " << filename << std::endl;
-            return;
         }
         Image img = { w, h, c, data };
         images.push_back(img);
     }
 
-    void addImageFolder(const char* folderPath) {
+// Add stack of images to the volume.
+void Volume::addImageFolder(const char* folderPath) {
+        std::vector<std::filesystem::path> file_paths;
+
         for (const auto& file : std::filesystem::directory_iterator(folderPath)) {
             if (file.path().extension() == ".png") {
-                int w, h, c;
-                std::cout << file.path() << std::endl;
-
-                unsigned char* data = stbi_load(file.path().string().c_str(), &w, &h, &c, 0);
-                if (!data) {
-                    std::cerr << "Failed to load image: " << file.path() << std::endl;
-                    continue;
-                }
-                Image img = { w, h, c, data };
-                images.push_back(img);
+                file_paths.push_back(file.path());
             }
+        }
+        file_sort(file_paths);
+
+        for (const auto& file_path : file_paths) {
+            int w, h, c;
+            std::cout << file_path << std::endl;
+
+            unsigned char* data = stbi_load(file_path.string().c_str(), &w, &h, &c, 0);
+            if (!data) {
+                std::cerr << "Failed to load image: " << file_path << std::endl;
+                continue;
+            }
+            Image img = { w, h, c, data };
+            images.push_back(img);
         }
     }
 
-    // Get a specific image from the volume
-    const Image& getImage(int i) {    // should it be a const?
+// Get a specific image from the volume
+const Volume::Image& Volume::getImage(int i) {   
         if (i >= images.size()) {
             throw std::out_of_range("Image index out of range");
         }
@@ -63,59 +51,65 @@ public:
         }
     }
 
-
-    // adjust get index for 3d filters.
-    const std::vector<Image>& getImageBatch(int batch_number, int kernal_length, int total_length) {
-        std::vector<Image> v;
-        if (total_length >= images.size()) {
-            throw std::out_of_range("Image index out of range");
-        }
-        else {
-            for (int i = batch_number * kernal_length; i < batch_number * kernal_length + kernal_length - 1; i++) {
-                v.push_back(images[i]);
-            }       
-            return v;
-        }
+// Get a list of images for further use.
+const std::vector<Volume::Image>& Volume::getImageList() const {
+        return images;
     }
-   
 
-    // destructor for the volume.
-    ~Volume() {
+// Adjust get index for 3d filters.
+int Volume:: get_size() { 
+        return images.size(); }
+   
+// destructor for the volume.
+Volume::~Volume() {
         for (auto& img : images) {
             stbi_image_free(img.data);
         }
     }
 
-private:
-    // Store image objects in the vector.
-    std::vector<Image> images;
-};
+bool Volume:: sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
+        int num_a = std::stoi(a.stem().string().substr(a.stem().string().length() - 4));
+        int num_b = std::stoi(b.stem().string().substr(b.stem().string().length() - 4));
 
-
-int main() {
-    
-    Volume volume;
-    volume.addImage("Images/dimorphos.png"); // add images one by one
-    
-    Volume volume2;
-    volume2.addImageFolder("images/"); // add all images in folders
-    
-    for (int i = 0; i < 6; i++) {
-        Image im = volume2.getImage(i); // get by index
-
-        // check if implemented rightly.
-        std::cout << "Image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
+        return num_a < num_b;
     }
 
-   
+void Volume:: file_sort(std::vector<std::filesystem::path>& file_paths) {
+        for (size_t i = 0; i < file_paths.size(); ++i) {
+            for (size_t j = 0; j < file_paths.size() - i - 1; ++j) {
+                if (!sort_file(file_paths[j], file_paths[j + 1])) {
+                    std::swap(file_paths[j], file_paths[j + 1]);
+                }
+            }
+        }
+    }
 
-    //// print one image size to screen
-    //std::cout << "Image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
 
 
 
-    return 0;
-  }
+//int main() {
+//    
+//    Volume volume;
+//    volume.addImage("images/dimorphos.png"); // add images one by one
+//    
+//    Volume volume2;
+//    volume2.addImageFolder("scans/fracture"); // add all images in folders
+//    
+//    //for (int i = 0; i < 6; i++) {
+//    //    image im = volume2.getimage(i); // get by index
+//
+//    //     
+//    //    std::cout << "image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
+//    //}
+//
+//
+//    //// print one image size to screen
+//    //std::cout << "image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
+//
+//
+//
+//    return 0;
+//  }
 
 
 
