@@ -1,7 +1,6 @@
 #include <string>
 #include "Image.h"
-#include "stb_image.h"
-#include "stb_image_write.h"
+
 
 // constructor for testing
 Image::Image(unsigned char* data, int width, int height, int channels)
