@@ -12,7 +12,7 @@ void Volume::addImage(const char* filename) {
         if (!data) {
             std::cerr << "Failed to load image: " << filename << std::endl;
         }
-        Image img = { w, h, c, data };
+        Image img(data,w,h,c);
         images.push_back(img);
     }
 
@@ -36,13 +36,13 @@ void Volume::addImageFolder(const char* folderPath) {
                 std::cerr << "Failed to load image: " << file_path << std::endl;
                 continue;
             }
-            Image img = { w, h, c, data };
+            Image img(data,w,h,c);
             images.push_back(img);
         }
     }
 
 // Get a specific image from the volume
-const Volume::Image& Volume::getImage(int i) {   
+const Image& Volume::getImage(int i) {   
         if (i >= images.size()) {
             throw std::out_of_range("Image index out of range");
         }
@@ -52,7 +52,7 @@ const Volume::Image& Volume::getImage(int i) {
     }
 
 // Get a list of images for further use.
-const std::vector<Volume::Image>& Volume::getImageList() const {
+const std::vector<Image>& Volume::getImageList() const {
         return images;
     }
 
@@ -83,35 +83,6 @@ void Volume:: file_sort(std::vector<std::filesystem::path>& file_paths) {
             }
         }
     }
-
-
-
-
-//int main() {
-//    
-//    Volume volume;
-//    volume.addImage("images/dimorphos.png"); // add images one by one
-//    
-//    Volume volume2;
-//    volume2.addImageFolder("scans/fracture"); // add all images in folders
-//    
-//    //for (int i = 0; i < 6; i++) {
-//    //    image im = volume2.getimage(i); // get by index
-//
-//    //     
-//    //    std::cout << "image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
-//    //}
-//
-//
-//    //// print one image size to screen
-//    //std::cout << "image loaded with size " << im.width << " x " << im.height << " with " << im.channels << " channel(s)." << std::endl;
-//
-//
-//
-//    return 0;
-//  }
-
-
 
 
 

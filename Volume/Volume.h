@@ -7,17 +7,12 @@
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+#include "Image.h"
+
 
 class Volume {
 public:
     Volume();
-
-    struct Image {
-        int width;
-        int height;
-        int channels;
-        unsigned char* data;
-    };
 
     void addImage(const char* filename);
     void addImageFolder(const char* folderPath);
