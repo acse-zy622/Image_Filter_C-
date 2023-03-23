@@ -1,6 +1,8 @@
 #include "Projections.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
+#include <thread>
+#include <tuple>
 
 // Constructor for the `Projection` class, initializing the `volume` member variable with the provided `Volume` pointer.
 Projection::Projection(const Volume* volume) : volume(volume) {}
@@ -196,43 +198,59 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
 
     // Check if the compare_function is "median" and perform the MedianIP operation if it is
     if (compare_function == "median") {
-
-        // Check if the images vector is empty, and print an error message if it is
         if (images.empty()) {
             std::cerr << "No images!" << std::endl;
             return;
         }
 
-        // Initialize the MedianIP_data vector with the same dimensions and channels as the input images
         std::vector<unsigned char> MedianIP_data(width * height * channels);
 
-        // Iterate through all pixels and channels, and compute the median value for each pixel
+        std::vector<std::tuple<int, int, int>> pixel_locations;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 for (int c = 0; c < channels; c++) {
-                    int index = (x + y * width) * channels + c;
-                    std::cout << "Processing x: " << x << ", y: " << y << ", c: " << c << ", index: " << index << std::endl;
-                    // Create a temporary vector to store the pixel values for each image
-                    std::vector<unsigned char> val;
-                    val.reserve(images.size());
-
-                    // Populate the temporary vector with the pixel values from all input images
-                    for (const auto& im4 : images) {
-                        val.emplace_back(im4.data[index]);
-                    }
-
-                    // Sort the temporary vector to find the median value
-                    quickSort(val, 0, val.size() - 1);
-
-                    // odd and even conditions for median number index
-                    if (val.size() % 2 == 0) {
-                        MedianIP_data[index] = (val[val.size()/ 2 - 1] + val[val.size() / 2]) / 2;
-                    }
-                    else {
-                        MedianIP_data[index] = val[val.size() / 2];
-                    }
+                    pixel_locations.emplace_back(x, y, c);
                 }
             }
+        }
+        // Multi-thread optimazations for median loops.
+        auto process_pixels = [&](size_t start, size_t end) {
+            for (size_t i = start; i < end; i++) {
+                int x, y, c;
+                std::tie(x, y, c) = pixel_locations[i];
+                int index = (x + y * width) * channels + c;
+                std::vector<unsigned char> val;
+                val.reserve(images.size());
+
+                for (const auto& im : images) {
+                    val.emplace_back(im.data[index]);
+                }
+
+                // Sort the temporary vector to find the median value
+                quickSort(val, 0, val.size() - 1);
+
+                // odd and even conditions for median number index
+                if (val.size() % 2 == 0) {
+                    MedianIP_data[index] = (val[val.size() / 2 - 1] + val[val.size() / 2]) / 2;
+                }
+                else {
+                    MedianIP_data[index] = val[val.size() / 2];
+                }
+            }
+        };
+        size_t num_threads = std::thread::hardware_concurrency();
+        size_t pixels_per_thread = pixel_locations.size() / num_threads;
+
+        // Create and store the threads in a vector
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < num_threads; i++) {
+            size_t start = i * pixels_per_thread;
+            size_t end = (i == num_threads - 1) ? pixel_locations.size() : (i + 1) * pixels_per_thread;
+            threads.emplace_back(process_pixels, start, end);
+        }
+        // Join the threads to wait for their completion
+        for (auto& t : threads) {
+            t.join();
         }
 
         // Check that if MedianIP_data and test4 are equal

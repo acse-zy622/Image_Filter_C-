@@ -16,6 +16,9 @@ public:
     // Adds an image to the Volume by providing the filename.
     void addImage(const char* filename);
 
+    // 1D array for 3d filter computation
+    unsigned char* trans_volume(int w, int h, int c, int d);
+
     // Adds all images from a folder to the Volume by providing the folder path.
     void addImageFolder(const char* folderPath);
 
@@ -37,6 +40,9 @@ private:
 
     // A vector used for internal operations.
     std::vector<Image> v;
+
+    // 1D array for 3d filter computation
+    unsigned char data_1;
 
     // Compares two file paths and returns true if the first should come before the second.
     bool sort_file(const std::filesystem::path& a, const std::filesystem::path& b);

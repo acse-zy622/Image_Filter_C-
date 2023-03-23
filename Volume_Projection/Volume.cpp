@@ -21,6 +21,16 @@ void Volume::addImage(const char* filename) {
     images.push_back(img); 
 }
 
+// 1D array for 3d filter computation
+unsigned char* Volume::trans_volume(int w, int h, int c, int d) {
+    unsigned char* data_1 = new unsigned char[w * h * c * d];
+    for (int i = 0; i < d; i++) {
+        int img_size = w * h * c;
+        std::memcpy(&data_1[i * img_size], images[i].data, img_size);
+    }
+    return data_1;
+}
+
 // Adds a stack of images to the Volume by loading them from a folder with order
 void Volume::addImageFolder(const char* folderPath) {
     std::vector<std::filesystem::path> file_paths;
@@ -76,23 +86,38 @@ Volume::~Volume() {
     }
 }
 
-// Compares two file paths based on their numeric values in the last four substrings.
+// Compares two file paths based on their numeric values in the last four substrings
+// Throw an exception if requirements are not met
 bool Volume::sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
+    std::string a_st = a.stem().string();
+    std::string b_st = b.stem().string();
 
-    int num_a = std::stoi(a.stem().string().substr(a.stem().string().length() - 4));
-    int num_b = std::stoi(b.stem().string().substr(b.stem().string().length() - 4));
+    if (a_st.length() < 4 || !std::isdigit(a_st[a_st.length() - 4]) ||
+        b_st.length() < 4 || !std::isdigit(b_st[b_st.length() - 4])) {
+        throw std::invalid_argument("Invalid path!");
+    }
 
-    return num_a < num_b;
+    int a_ = std::stoi(a_st.substr(a_st.length() - 4));
+    int b_ = std::stoi(b_st.substr(b_st.length() - 4));
+
+    return a_ < b_;
 }
 
 // Sorts a vector of file paths using the sort_file comparison function
+// Catch an exception from sort_file to exit
 void Volume::file_sort(std::vector<std::filesystem::path>& file_paths) {
-    for (size_t i = 0; i < file_paths.size(); ++i) {
-        for (size_t j = 0; j < file_paths.size() - i - 1; ++j) {
-            if (!sort_file(file_paths[j], file_paths[j + 1])) {
-                std::swap(file_paths[j], file_paths[j + 1]);
+    try {
+        for (size_t i = 0; i < file_paths.size(); ++i) {
+            for (size_t j = 0; j < file_paths.size() - i - 1; ++j) {
+                if (!sort_file(file_paths[j], file_paths[j + 1])) {
+                    std::swap(file_paths[j], file_paths[j + 1]);
+                }
             }
         }
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << e.what() << std::endl;
+        std::exit(1);
     }
 }
 
