@@ -6,7 +6,10 @@
 #include <cassert>
 #include <iostream>
 
-// Constructor
+/**
+ * @brief Construct a new Image Processing Tests:: Image Processing Tests object
+ * 
+ */
 ImageProcessingTests::ImageProcessingTests() {
     img_data = nullptr;
     corrected_img = nullptr;
@@ -17,7 +20,10 @@ ImageProcessingTests::ImageProcessingTests() {
     sigma = 1.0f;
 };
 
-// Destructor
+/**
+ * @brief Destroy the Image Processing Tests:: Image Processing Tests object
+ * 
+ */
 ImageProcessingTests::~ImageProcessingTests() {
     if (img_data) {
         delete[] img_data;
@@ -27,6 +33,9 @@ ImageProcessingTests::~ImageProcessingTests() {
     }
 };
 
+/**
+ * Applies an apply gray scale filter for testing.
+ */
 void ImageProcessingTests::test_apply_gray_scale() {
     // Sample input data (2x2 RGB image)
     unsigned char data1[] = {
@@ -62,13 +71,6 @@ void ImageProcessingTests::test_apply_gray_scale() {
     unsigned char* corrected_img1 = filter1.get_corrected_img();
     unsigned char* corrected_img2 = filter2.get_corrected_img();
 
-    // for (size_t i = 0; i < 8 ; ++i) {
-    //     std::cout << static_cast<int>(corrected_img2[i]) << " ";
-    //     if ((i + 1) % 2 == 0) {
-    //         std::cout << std::endl;
-    //     }
-    // }
-
     for (int i = 0; i < 2 * 2 * 1; ++i) {
         assert(abs(corrected_img1[i] - expected_output_data1[i]) <= 1);
     }
@@ -77,6 +79,9 @@ void ImageProcessingTests::test_apply_gray_scale() {
     }
 };
 
+/**
+ * Applies an auto colour balance filter for testing.
+ */
 void ImageProcessingTests::test_auto_colour_balance() {
     // Sample input data (2x2 RGB image)
     unsigned char data[] = {
@@ -84,30 +89,11 @@ void ImageProcessingTests::test_auto_colour_balance() {
         7, 8, 9, 10, 11, 12
     };
 
-    // Sample input data (3x3 grayscale image)
-    unsigned char data2[] = {
-        1,  2,  3,
-        4,  5,  6,
-        7,  8,  9
-    };
-    
     // Expected output data for auto colour balance
     unsigned char expected_output_data[] = {
         1,  2,  3,  5, 5, 6,
         9, 9, 9, 13, 12, 12
     }; 
-
-    unsigned char expected_output_data2[] = {
-        6,  12,  19,
-        25,  32,  38,
-        44,  51,  57
-    };// 7 15 23 
-     //30 38 46 
-     //53 61 69 
-
-    // 5 10 16 
-    //21 27 32 
-    //38 43 49 
 
     w = 2;
     h = 2;
@@ -116,30 +102,17 @@ void ImageProcessingTests::test_auto_colour_balance() {
     Image im(data, w, h, c);
     Filter filter(im);
     filter.AutoColourBalance();
-
-    Image im2(data2, 3, 3, 1);
-    Filter filter2(im2);
-    filter2.AutoColourBalance();
     
     unsigned char* corrected_img = filter.get_corrected_img();
-    unsigned char* corrected_img2 = filter2.get_corrected_img();
-
-    for (size_t i = 0; i < 9 ; ++i) {
-        std::cout << static_cast<int>(corrected_img2[i]) << " ";
-        if ((i + 1) % 3 == 0) {
-            std::cout << std::endl;
-        }
-   }
 
     for (int i = 0; i < w * h * c; ++i) {
         assert(abs(corrected_img[i] - expected_output_data[i]) <= 1);
-    }
-
-    //  for (int i = 0; i < 3 * 3 * 1; ++i) {
-    //     assert(abs(corrected_img2[i] - expected_output_data2[i]) <= 5);
-    // }   
+    }  
 }
 
+/**
+ * Applies a brightness filter for testing.
+ */
 void ImageProcessingTests::test_brightness() {
     //Sample input data (2X2 RGB image)
     unsigned char data[] = {
@@ -164,21 +137,15 @@ void ImageProcessingTests::test_brightness() {
     filter.Brightness(brightness_value);
     
     unsigned char* corrected_img = filter.get_corrected_img();
-    //unsigned char* corrected_img = filter.corrected_img();
 
     for (int i = 0; i < 3 * 3 * 1; ++i) {
         assert(abs(corrected_img[i] - expected_output_data[i]) <= 1);
     }
-
-
-    // for (size_t i = 0; i < 12 ; ++i) {
-    //     std::cout << static_cast<int>(corrected_img[i]) << " ";
-    //     if ((i + 1) % 6 == 0) {
-    //         std::cout << std::endl;
-    //     }
-    // }
 }
 
+/**
+ * Applies a median blur filter for testing.
+ */
  void ImageProcessingTests::test_median_blur() {
 
     // Sample input data (4x4 grayscale image)
@@ -211,15 +178,11 @@ void ImageProcessingTests::test_brightness() {
     for (int i = 0; i < 4 * 4 * 1; ++i) {
        assert(abs(corrected_img[i] - expected_output_data[i]) <= 1);
     }
-
-    // for (size_t i = 0; i < 16 ; ++i) {
-    //     std::cout << static_cast<int>(corrected_img[i]) << " ";
-    //     if ((i + 1) % 4 == 0) {
-    //         std::cout << std::endl;
-    //     }
-    //  }
 }
 
+/**
+ * Applies a box blur filter for testing.
+ */
 void ImageProcessingTests::test_box_blur() {
     // Sample input data (4x4 grayscale image)
     unsigned char data1[] = {
@@ -258,15 +221,6 @@ void ImageProcessingTests::test_box_blur() {
     filter2.box_blur();
     unsigned char* corrected_img2 = filter2.get_corrected_img();
 
-
-// for (size_t i = 0; i < 12; ++i) {
-//     std::cout << static_cast<int>(corrected_img2[i]) << " ";
-//     if ((i + 1) % 6 == 0) {
-//         std::cout << std::endl;
-//     }
-//}
-    //unsigned char* corrected_img = filter.corrected_img();
-
     for (int i = 0; i < 4 * 4 * 1; ++i) {
         assert(abs(corrected_img1[i] - expected_data1[i]) <= 1);
     }
@@ -275,6 +229,9 @@ void ImageProcessingTests::test_box_blur() {
     }
 }
 
+/**
+ * Applies a gaussian blur filter for testing.
+ */
 void ImageProcessingTests::test_gaussian_blur() {
     // Sample input data (3x3 grayscale image)
     unsigned char data[] = {
@@ -304,15 +261,11 @@ void ImageProcessingTests::test_gaussian_blur() {
     for (int i = 0; i < w * h * c; ++i) {
         assert(abs(corrected_img[i] - expected_data[i]) <= 1);
     }
+}
 
-//     for (int i = 0; i < 9; ++i) {
-//     std::cout << static_cast<int>(data[i]) << " ";
-//     if ((i + 1) % 3 == 0) {
-//         std::cout << std::endl;
-//     }
-// }
-};
-
+/**
+ * Applies a sobel edge detection filter for testing.
+ */
 void ImageProcessingTests::test_sobel_edge_detection() {
     // Sample input data (3x3 grayscale image)
     unsigned char data1[] = {
@@ -360,11 +313,11 @@ void ImageProcessingTests::test_sobel_edge_detection() {
     for (int i = 0; i < 4 * 4 * 1; ++i) {
         assert(abs(corrected_img2[i] - expected_data2[i]) <= 1);
     }
-    // for (int i = 0; i<16; i++)
-    //     std::cout << static_cast<int>(corrected_img2[i]) << " ";
-    //     std::cout << std::endl;
 }
 
+/**
+ * Applies a prewitt edge detection filter for testing.
+ */
 void ImageProcessingTests::test_prewitt_edge_detection() {
     // Sample input data (3x3 grayscale image)
     unsigned char data1[] = {
@@ -412,11 +365,11 @@ void ImageProcessingTests::test_prewitt_edge_detection() {
     for (int i = 0; i < 4 * 4 * 1; ++i) {
         assert(abs(corrected_img2[i] - expected_data2[i]) <= 1);
     }
-    // for (int i = 0; i<16; i++)
-    //     std::cout << static_cast<int>(corrected_img2[i]) << " ";
-    //     std::cout << std::endl;
 }
 
+/**
+ * Applies a 3d median blur filter for testing.
+ */
 void ImageProcessingTests::test_median_blur_3d() {
     // Sample input data (2x2x2 grayscale image)
     unsigned char data1[] = {
@@ -441,15 +394,14 @@ void ImageProcessingTests::test_median_blur_3d() {
     filter1.median_blur_3d();
     unsigned char* corrected_img1 = filter1.get_corrected_img();
 
-    // for (int i = 0; i<8; i++)
-    //     std::cout << static_cast<int>(data1[i]) << " ";
-    //     std::cout << std::endl;
-
     for (int i = 0; i < 2 * 2 * 2 * 1; ++i) {
         assert(abs(corrected_img1[i] - expected_data1[i]) <= 1);
     }
 }
 
+/**
+ * Applies a 3d gaussian blur filter for testing.
+ */
 void ImageProcessingTests::test_gaussian_blur_3d() {
     // Sample input data (2x2x2 grayscale image)
     unsigned char data1[] = {
@@ -507,14 +459,6 @@ void ImageProcessingTests::test_gaussian_blur_3d() {
     Filter filter2(im2, 3, 1.0f, 3);
     filter2.gaussian_blur_3d();
     unsigned char* filtered_data2 = filter2.get_corrected_img();
-
-    // for (int i = 0; i<8; i++)
-    //     std::cout << static_cast<int>(filtered_data1[i]) << " ";
-    //     std::cout << std::endl;
-
-    // for (int i = 0; i<27; i++)
-    //     std::cout << static_cast<int>(filtered_data2[i]) << " ";
-    //     std::cout << std::endl;
 
     for (size_t i = 0; i < 8; ++i) {
         assert(abs(filtered_data1[i] - expected_data1[i]) <= 1);

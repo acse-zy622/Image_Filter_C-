@@ -47,7 +47,6 @@ public:
 
 private:
     unsigned char* img_data;       // Pointer to the image data
-    unsigned char* gray_data;      // Pointer to the grayscale image data
     unsigned char* corrected_img;  // Pointer to the corrected image data
     int w;                         // Image width
     int h;                         // Image height
