@@ -42,19 +42,26 @@ Filter::~Filter() {
     delete[] corrected_img;
 }
 
-    void Filter::ApplyGrayScale() {
-        unsigned char* img_data = image.data;
-        int gray_channels = (channels == 4) ? 2 : 1;
-        corrected_img = new unsigned char[width * height * gray_channels];
+/**
+ * @brief Applies grayscale to an image.
+ *
+ * Calculates the average of each RGB value within the pixel and stores it as 
+ * an unsigned 8-bit integer in the output pixel. If the image has an alpha channel, 
+ * it stores the alpha channel in the second channel of the grayscale image.
+ */
+void Filter::ApplyGrayScale() {
+    unsigned char* img_data = image.data;
+    // Set the number of channels in the grayscale image.
+    int gray_channels = (channels == 4) ? 2 : 1;
+    corrected_img = new unsigned char[width * height * gray_channels];
 
-        for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += gray_channels)
+    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += gray_channels)
         {
-            // calculate the average of each RGB value within the pixel) - thats why input_pixel(+0) + (inputpixel + 1) etc...
-            // cast this to unsigned 8 bit integer
-            // this ensures pixel value is represeneted by exactly one byte (standard)
+            // Calculate the average of each RGB value within the pixel and cast value to an unsigned 8-bit integer 
+            // to ensure the pixel value is represented by exactly one byte.
             *output_pixel = static_cast<uint8_t>((*input_pixel + *(input_pixel + 1) + *(input_pixel + 2)) / 3.0);
             
-            //This will store the alpha channel in the second channel of the grayscale image
+            //Store the alpha channel in the second channel of the grayscale image
             if (channels == 4) {
                 *(output_pixel + 1) = *(input_pixel + 3);
             }
@@ -62,71 +69,87 @@ Filter::~Filter() {
         channels = gray_channels;
     }
 
+/**
+ * @brief Balances the color of the image by scaling each color channel by 
+ * the ratio of the maximum intensity to the average intensity of that channel.
+ */
+void Filter::AutoColourBalance() {
+    unsigned char* img_data = image.data;
+    size_t pixel_total = width * height;
+    corrected_img = new unsigned char[width * height * channels];
 
-    void Filter::AutoColourBalance() {
-        unsigned char* img_data = image.data;
-        size_t pixel_total = width * height;
-        corrected_img = new unsigned char[width * height * channels];
+    int red_total = 0;
+    int green_total = 0;
+    int blue_total = 0;
 
-        int red_total = 0;
-        int green_total = 0;
-        int blue_total = 0;
+    // Calculate the total intensity of each channel
+    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
+        red_total += *input_pixel; 
+        green_total += *(input_pixel + 1);
+        blue_total += *(input_pixel + 2);
+    }
 
-        for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
-            red_total += *input_pixel; 
-            green_total += *(input_pixel + 1);
-            blue_total += *(input_pixel + 2);
-        }
-
-       vector<double> inten_avg = { static_cast<double>(red_total) / pixel_total,
+    // Calculate the average intensity of each channel
+    vector<double> inten_avg = { static_cast<double>(red_total) / pixel_total,
                                  static_cast<double>(green_total) / pixel_total,
                                  static_cast<double>(blue_total) / pixel_total };
-        
-        auto max_intensity = *max_element(begin(inten_avg), end(inten_avg));
-        double red_scale = max_intensity / inten_avg[0];
-        double green_scale = max_intensity / inten_avg[1];
-        double blue_scale = max_intensity / inten_avg[2];
 
-        for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
+    // Find the maximum intensity among all channels
+    auto max_intensity = *max_element(begin(inten_avg), end(inten_avg));
 
+    // Calculate the scale factor for each channel
+    double red_scale = max_intensity / inten_avg[0];
+    double green_scale = max_intensity / inten_avg[1];
+    double blue_scale = max_intensity / inten_avg[2];
+
+    // Scale each pixel in the image and store the result in corrected_img
+    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
             *output_pixel = std::min((*input_pixel * red_scale), 255.0);
             *(output_pixel + 1) = std::min((*(input_pixel + 1) * green_scale), 255.0);
             *(output_pixel + 2) = std::min((*(input_pixel + 2) * blue_scale), 255.0);
-        }
+    }
+}
+
+/**
+ * @brief Adjusts brightness of the image by scaling the intensity of each color 
+ * channel by the ratio of the desired brightness to the average intensity of that channel.
+ *
+ * @param brightness The desired brightness level, as an integer between 0 and 255.
+ * @return None
+ */
+void Filter::Brightness(int brightness) {
+    unsigned char* img_data = image.data;
+    size_t pixel_total = width * height;
+    corrected_img = new unsigned char[width * height * channels];
+
+    int red_total = 0;
+    int green_total = 0;
+    int blue_total = 0;
+
+     // Calculate the total intensity for each color channel
+    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
+        red_total += *input_pixel; 
+        green_total += *(input_pixel + 1);
+        blue_total += *(input_pixel + 2);
     }
 
-    void Filter::Brightness(int brightness) {
-        unsigned char* img_data = image.data;
-        size_t pixel_total = width * height;
-        corrected_img = new unsigned char[width * height * channels];
+    // Calculate the average intensity for each color channel
+    double red_avg = red_total / (double)pixel_total;
+    double green_avg = green_total / (double)pixel_total;
+    double blue_avg = blue_total / (double)pixel_total;
 
-        int red_total = 0;
-        int green_total = 0;
-        int blue_total = 0;
+    // Calculate the scaling factor for each color channel based on the desired brightness level
+    double red_scale = brightness / red_avg;
+    double green_scale = brightness / green_avg;
+    double blue_scale = brightness / blue_avg;
 
-        //total intensity for each channel
-        for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
-
-            red_total += *input_pixel; // not sure if its ordered like this for every image type
-            green_total += *(input_pixel + 1);
-            blue_total += *(input_pixel + 2);
-        }
-
-        double red_avg = red_total / (double)pixel_total;
-        double green_avg = green_total / (double)pixel_total;
-        double blue_avg = blue_total / (double)pixel_total;
-
-        double red_scale = brightness / red_avg;
-        double green_scale = brightness / green_avg;
-        double blue_scale = brightness / blue_avg;
-
-        for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
-            *output_pixel = std::max(0.0, std::min(static_cast<int>(*input_pixel) * red_scale, 255.0));
-            *(output_pixel + 1) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 1)) * green_scale, 255.0));
-            *(output_pixel + 2) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 2)) * blue_scale, 255.0));
-        }
-
+    // Scale the intensity of each color channel for each pixel in the image
+    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
+        *output_pixel = std::max(0.0, std::min(static_cast<int>(*input_pixel) * red_scale, 255.0));
+        *(output_pixel + 1) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 1)) * green_scale, 255.0));
+        *(output_pixel + 2) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 2)) * blue_scale, 255.0));
     }
+}
 
 /**
  * @brief Applies the Sobel edge detection filter to the image.
