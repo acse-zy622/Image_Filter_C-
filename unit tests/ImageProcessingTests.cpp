@@ -8,9 +8,7 @@
 
 // Constructor
 ImageProcessingTests::ImageProcessingTests() {
-    // Initialize member variables if needed
     img_data = nullptr;
-    gray_data = nullptr;
     corrected_img = nullptr;
     w = 0;
     h = 0;
@@ -21,12 +19,8 @@ ImageProcessingTests::ImageProcessingTests() {
 
 // Destructor
 ImageProcessingTests::~ImageProcessingTests() {
-    // Clean up memory if needed
     if (img_data) {
         delete[] img_data;
-    }
-    if (gray_data) {
-        delete[] gray_data;
     }
     if (corrected_img) {
         delete[] corrected_img;
@@ -35,7 +29,7 @@ ImageProcessingTests::~ImageProcessingTests() {
 
 void ImageProcessingTests::test_apply_gray_scale() {
     // Sample input data (2x2 RGB image)
-    unsigned char* data1 = new unsigned char[12]{
+    unsigned char data1[] = {
         1,  2,  3,  4,  5,  6,
         7,  8,  9, 10, 11, 12
     };
@@ -46,6 +40,7 @@ void ImageProcessingTests::test_apply_gray_scale() {
     7,  8,  9, 255, 10, 11, 12, 255
 };
 
+    // Expected output data for applying gray scale
     unsigned char expected_output_data1[] = {
         2,  5,
         8, 11
@@ -73,7 +68,7 @@ void ImageProcessingTests::test_apply_gray_scale() {
     //         std::cout << std::endl;
     //     }
     // }
-    // Compare the output with the expected output
+
     for (int i = 0; i < 2 * 2 * 1; ++i) {
         assert(abs(corrected_img1[i] - expected_output_data1[i]) <= 1);
     }
@@ -96,6 +91,7 @@ void ImageProcessingTests::test_auto_colour_balance() {
         7,  8,  9
     };
     
+    // Expected output data for auto colour balance
     unsigned char expected_output_data[] = {
         1,  2,  3,  5, 5, 6,
         9, 9, 9, 13, 12, 12
@@ -151,7 +147,7 @@ void ImageProcessingTests::test_brightness() {
     7,  8,  9, 10, 11, 12
 };
 
-   // Expected output data (2x2 RGB image)
+   // Expected output data for brightness (2x2 RGB image)
     unsigned char expected_output_data[] = {
     9, 15, 20, 36, 38, 40, 
     63, 61, 60, 90, 84, 80
@@ -185,7 +181,7 @@ void ImageProcessingTests::test_brightness() {
 
  void ImageProcessingTests::test_median_blur() {
 
-    // Sample input data (4x4 single-channel image)
+    // Sample input data (4x4 grayscale image)
     unsigned char data[] = {
         1, 2, 3, 4,
         5, 6, 7, 8,
@@ -193,7 +189,7 @@ void ImageProcessingTests::test_brightness() {
         13, 14, 15, 16,
     };
 
-    // Expected output data
+    //Expected output data for the median blur filter
     unsigned char expected_output_data[] = {
         0, 5, 6, 7,
         7, 7, 7, 10,
@@ -225,7 +221,7 @@ void ImageProcessingTests::test_brightness() {
 }
 
 void ImageProcessingTests::test_box_blur() {
-    // Sample input data (4x4 single-channel image)
+    // Sample input data (4x4 grayscale image)
     unsigned char data1[] = {
         1, 2, 3, 4,
         5, 6, 7, 8,
@@ -239,7 +235,7 @@ void ImageProcessingTests::test_box_blur() {
         7, 8, 9,   10, 11, 12
     };
 
-    // Expected output data
+    //Expected output data for the box blur filter
     unsigned char expected_data1[] = {
         3, 4, 5, 5,
         5, 6, 7, 7,
@@ -247,7 +243,6 @@ void ImageProcessingTests::test_box_blur() {
         11, 12, 13, 13,
     };
 
-        // Expected output data
     unsigned char expected_data2[] = {
         5, 6, 7,   5, 6, 7,
         5, 6, 7,   5, 6, 7
@@ -288,7 +283,7 @@ void ImageProcessingTests::test_gaussian_blur() {
         7,  8,  9
     };
 
-    // Expected output data for the gaussian_blur function
+    //Expected output data for the gaussian blur filter
     unsigned char expected_data[] = {
         1,  2,  2,
         3,  5,  4,
@@ -456,7 +451,7 @@ void ImageProcessingTests::test_median_blur_3d() {
 }
 
 void ImageProcessingTests::test_gaussian_blur_3d() {
-    // 2x2x2 grayscale image
+    // Sample input data (2x2x2 grayscale image)
     unsigned char data1[] = {
         10, 20, // First layer (slice)
         30, 40,
@@ -465,17 +460,17 @@ void ImageProcessingTests::test_gaussian_blur_3d() {
         70, 80
     };
 
-    // 3x3x3 grayscale image
+    // Sample input data (3x3x3 grayscale image)
     unsigned char data2[] = {
-        1, 2, 3,
+        1, 2, 3,  // First layer (slice)
         4, 5, 6,
         7, 8, 9,
 
-        10, 11, 12,
+        10, 11, 12, // Second layer (slice)
         13, 14, 15,
         16, 17, 18,
 
-        19, 20, 21,
+        19, 20, 21, // Third layer (slice)
         22, 23, 24,
         25, 26, 27
     };
