@@ -356,8 +356,16 @@ void Filter::median_blur() {
                         }
                     }
                 }
-                // Sort the pixel values for the current channel
-                std::sort(kernel_values.begin(), kernel_values.end());
+                // Sort the values for the current channel
+                for (int i = 0; i < kernel_size * kernel_size - 1; ++i) {
+                    for (int j = 0; j < kernel_size * kernel_size - i - 1; ++j) {
+                        if (kernel_values[j] > kernel_values[j + 1]) {
+                            float temp = kernel_values[j];
+                            kernel_values[j] = kernel_values[j + 1];
+                            kernel_values[j + 1] = temp;
+                        }
+                    }
+                }
 
                 // Set the pixel value at the center of the kernel to the median value for the current channel
                 corrected_img[(y * width + x) * channels + channel] = kernel_values[(kernel_size * kernel_size) / 2];
@@ -407,7 +415,16 @@ void Filter::median_blur_3d() {
               }
             }
           }
-          std::sort(pixel_values.begin(), pixel_values.end());
+          // Sort the values for the current channel
+        for (int i = 0; i < kernel_size * kernel_size - 1; ++i) {
+            for (int j = 0; j < kernel_size * kernel_size - i - 1; ++j) {
+                if (pixel_values[j] > pixel_values[j + 1]) {
+                    float temp = pixel_values[j];
+                    pixel_values[j] = pixel_values[j + 1];
+                    pixel_values[j + 1] = temp;
+                }
+            }
+        }
           unsigned char median_value = pixel_values[pixel_values.size() / 2];
 
           // Set the pixel value at the center of the kernel to the median value for the current channel
