@@ -78,6 +78,7 @@ Volume::~Volume() {
 
 // Compares two file paths based on their numeric values in the last four substrings.
 bool Volume::sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
+
     int num_a = std::stoi(a.stem().string().substr(a.stem().string().length() - 4));
     int num_b = std::stoi(b.stem().string().substr(b.stem().string().length() - 4));
 

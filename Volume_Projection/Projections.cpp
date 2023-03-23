@@ -2,7 +2,6 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-
 // Constructor for the `Projection` class, initializing the `volume` member variable with the provided `Volume` pointer.
 Projection::Projection(const Volume* volume) : volume(volume) {}
 
@@ -52,10 +51,24 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
                     }
                 }
             }
-
+            // Check that if MaxIP_data and test1 are equal
             if (flag == "test") {
+                unsigned char test1[] = { 4,7,4,3,7,93,23,98,97 };
+                bool equal = true;
                 for (int i = 0; i < MaxIP_data.size(); i++) {
                     std::cout << static_cast<int>(MaxIP_data[i]) << std::endl;
+                }
+                for (int i = 0; i < MaxIP_data.size(); i++) {
+                    if (static_cast<int>(MaxIP_data[i]) != test1[i]) {
+                        equal = false;
+                        break;
+                    }
+                }
+                if (equal) {
+                    std::cout << "two sets are equal! passed!" << std::endl;
+                }
+                else {
+                    std::cout << "two sets not equal! failed!" << std::endl;
                 }
             }
             else {
@@ -91,10 +104,24 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
                 }
             }
 
-            
+            // Check that if MinIP_data and test2 are equal
             if (flag == "test") {
+                unsigned char test2[] = { 1,6,0,2,1,2,3,23,12 };
+                bool equal = true;
                 for (int i = 0; i < MinIP_data.size(); i++) {
                     std::cout << static_cast<int>(MinIP_data[i]) << std::endl;
+                }
+                for (int i = 0; i < MinIP_data.size(); i++) {
+                    if (static_cast<int>(MinIP_data[i]) != test2[i]) {
+                        equal = false;
+                        break;
+                    }
+                }
+                if (equal) {
+                    std::cout << "two sets are equal! passed!" << std::endl;
+                }
+                else {
+                    std::cout << "two sets not equal! failed!" << std::endl;
                 }
             }
             else {
@@ -139,10 +166,24 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
             MeanIP_data[i] = static_cast<unsigned char>(sum[i] / num);
         }
 
+        // Check that if MeanIP_data and test3 are equal
         if (flag == "test") {
-
+            unsigned char test3[] = { 2,6,2,2,4,33,11,55,50 };
+            bool equal = true;
             for (int i = 0; i < MeanIP_data.size(); i++) {
-                std::cout << static_cast<double>(MeanIP_data[i]) << std::endl;
+                std::cout << static_cast<int>(MeanIP_data[i]) << std::endl;
+            }
+            for (int i = 0; i < MeanIP_data.size(); i++) {
+                if (static_cast<int>(MeanIP_data[i]) != test3[i]) {
+                    equal = false;
+                    break;
+                }
+            }
+            if (equal) {
+                std::cout << "two sets are equal! passed!" << std::endl;
+            }
+            else {
+                std::cout << "two sets not equal! failed!" << std::endl;
             }
         }
         else {
@@ -194,9 +235,24 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
             }
         }
 
+        // Check that if MedianIP_data and test4 are equal
         if (flag == "test") {
+            unsigned char test4[] = { 2,7,3,2,5,4,9,45,43 };
+            bool equal = true;
             for (int i = 0; i < MedianIP_data.size(); i++) {
-                std::cout << static_cast<double>(MedianIP_data[i]) << std::endl;
+                std::cout << static_cast<int>(MedianIP_data[i]) << std::endl;
+            }
+            for (int i = 0; i < MedianIP_data.size(); i++) {
+                if (static_cast<int>(MedianIP_data[i]) != test4[i]) {
+                    equal = false;
+                    break;
+                }
+            }
+            if (equal) {
+                std::cout << "two sets are equal! passed!" << std::endl;
+            }
+            else {
+                std::cout << "two sets not equal! failed!" << std::endl;
             }
         }
         else {

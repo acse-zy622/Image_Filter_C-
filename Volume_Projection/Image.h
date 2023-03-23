@@ -12,7 +12,6 @@
 class Image {
 public:
     unsigned char* data;
-    
     // constructor for testing
     Image(unsigned char* data, int width, int height, int channels);
     // constructor for image

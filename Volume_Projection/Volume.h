@@ -10,6 +10,7 @@ public:
     // Default constructor
     Volume();
 
+    // Selfmade images for testing.
     void addTestImage(Image& im);
 
     // Adds an image to the Volume by providing the filename.
