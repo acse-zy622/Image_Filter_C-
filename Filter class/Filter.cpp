@@ -69,7 +69,7 @@ void Filter::ApplyGrayScale()
 {
     unsigned char *img_data = image.data;
     // Set the number of channels in the grayscale image.
-    int gray_channels = (channels == 4) ? 2 : 1;
+    int gray_channels = 1;
     corrected_img = new unsigned char[width * height * gray_channels];
 
     for (unsigned char *input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += gray_channels)
@@ -77,12 +77,6 @@ void Filter::ApplyGrayScale()
         // Calculate the average of each RGB value within the pixel and cast value to an unsigned 8-bit integer
         // to ensure the pixel value is represented by exactly one byte.
         *output_pixel = static_cast<uint8_t>((*input_pixel + *(input_pixel + 1) + *(input_pixel + 2)) / 3.0);
-
-        // Store the alpha channel in the second channel of the grayscale image
-        if (channels == 4)
-        {
-            *(output_pixel + 1) = *(input_pixel + 3);
-        }
     }
     channels = gray_channels;
 }
@@ -504,19 +498,7 @@ void Filter::median_blur_3d()
                             }
                         }
                     }
-                    // Sort the values for the current channel
-                    for (int i = 0; i < kernel_values.size() - 1; ++i)
-                    {
-                        for (int j = 0; j < kernel_values.size() - i - 1; ++j)
-                        {
-                            if (kernel_values[j] > kernel_values[j + 1])
-                            {
-                                float temp = kernel_values[j];
-                                kernel_values[j] = kernel_values[j + 1];
-                                kernel_values[j + 1] = temp;
-                            }
-                        }
-                    }
+                    quickSort1(kernel_values, 0, kernel_values.size()-1);
                     // Set the pixel value at the center of the kernel to the median value for the current channel
                     corrected_img[((z * height + y) * width + x) * channels + channel] = kernel_values[kernel_values.size() / 2];
                 }
@@ -653,4 +635,46 @@ void Filter::SaveImgFolder(const std::string &s_path)
 unsigned char *Filter::get_corrected_img() const
 {
     return corrected_img;
+}
+
+/**
+ * Partitions a vector of unsigned char values for quicksort.
+ *
+ * @param val The vector to be partitioned.
+ * @param l The lower index of the range to be partitioned.
+ * @param h The upper index of the range to be partitioned.
+ * @return The index of the pivot element.
+ */
+int Filter::separation1(std::vector<unsigned char>& val, int l, int h) {
+    unsigned char piv = val[h];
+    int temp;
+    int i = l - 1;
+    for (int j = l; j <= h - 1; j++) {
+        if (val[j] <= piv) {
+            i++;
+            temp = val[j];
+            val[j]=val[i];
+            val[i]=temp;          
+        }
+    }
+    temp=val[h];
+    val[h]=val[i+1];
+    val[i+1]=temp;
+    return (i + 1);
+}
+
+/**
+ * Sorts a vector of unsigned char values using the quicksort algorithm.
+ *
+ * @param val The vector to be sorted.
+ * @param l The lower index of the range to be sorted.
+ * @param h The upper index of the range to be sorted.
+ * @return None.
+ */
+void Filter::quickSort1(std::vector<unsigned char>& val, int l, int h) {
+    if (l < h) {
+        int piv = separation1(val, l, h);
+        quickSort1(val, l, piv - 1);
+        quickSort1(val, piv + 1, h);
+    }
 }

@@ -76,4 +76,6 @@ private:
     int channels;                 // Number of channels in the input image (3 for RGB and 1 for grayscale)
     size_t img_size;              // Total size of the image data (width * height * channels)
     unsigned char *corrected_img; // Pointer to the corrected image data after applying filters
+    void quickSort1(std::vector<unsigned char>& val, int l, int h); // Quicksort for 3d
+    int separation1(std::vector<unsigned char>& val, int l, int h); // Partitions s vector for quicksort
 };
