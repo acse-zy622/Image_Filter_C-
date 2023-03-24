@@ -1,9 +1,23 @@
+/**
+ * @file Image.h
+ * @brief Header file for the Image class.
+ *
+ * This file contains the declaration of the Image class used to represent images.
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #pragma once
 
 // The Image class represents an image with its data, width, height, and channels.
 class Image {
 public:
-    unsigned char* data;
+    unsigned char* data; // Pointer to the image data
     
     // Constructor for testing: Initializes an Image object with the given data, width, height, and channels.
     Image(unsigned char* data, int width, int height, int channels);
@@ -21,6 +35,8 @@ public:
     int get_channels() const;
 
 private: 
-    std::string img_path;
-    int width, height, channels;
+    std::string img_path; // Path to the image file
+    int width;            // Width of the image
+    int height;           // Height of the image
+    int channels;         // Number of channels in the image (3 for RGB and 1 for grayscale)
 };

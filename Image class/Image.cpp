@@ -1,3 +1,17 @@
+/**
+ * @file Image.cpp
+ * @brief Implementation of the Image class.
+ *
+ * This file contains the implementation of the Image class used to represent images.
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #include <string>
 #include "Image.h"
 #include "stb_image.h"
