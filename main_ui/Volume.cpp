@@ -68,14 +68,27 @@ Volume::~Volume() {
         }
     }
 
-bool Volume:: sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
-        int num_a = std::stoi(a.stem().string().substr(a.stem().string().length() - 4));
-        int num_b = std::stoi(b.stem().string().substr(b.stem().string().length() - 4));
+// Compares two file paths based on their numeric values in the last four substrings
+// Throw an exception if requirements are not met
+bool Volume::sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
+    std::string a_st = a.stem().string();
+    std::string b_st = b.stem().string();
 
-        return num_a < num_b;
+    if (a_st.length() < 4 || !std::isdigit(a_st[a_st.length() - 4]) ||
+        b_st.length() < 4 || !std::isdigit(b_st[b_st.length() - 4])) {
+        throw std::invalid_argument("\nInvalid path! - Please refer to the READ.ME for image folder formatting");
     }
 
-void Volume:: file_sort(std::vector<std::filesystem::path>& file_paths) {
+    int a_ = std::stoi(a_st.substr(a_st.length() - 4));
+    int b_ = std::stoi(b_st.substr(b_st.length() - 4));
+
+    return a_ < b_;
+}
+
+// Sorts a vector of file paths using the sort_file comparison function
+// Catch an exception from sort_file to exit
+void Volume::file_sort(std::vector<std::filesystem::path>& file_paths) {
+    try {
         for (size_t i = 0; i < file_paths.size(); ++i) {
             for (size_t j = 0; j < file_paths.size() - i - 1; ++j) {
                 if (!sort_file(file_paths[j], file_paths[j + 1])) {
@@ -84,6 +97,12 @@ void Volume:: file_sort(std::vector<std::filesystem::path>& file_paths) {
             }
         }
     }
+    catch (const std::invalid_argument& e) {
+        std::cerr << e.what() << std::endl;
+        std::exit(1);
+    }
+}
+
 
 unsigned char* Volume::trans_volume(int w, int h, int c, int d) {
     unsigned char* data_1 = new unsigned char[w * h * c * d];
