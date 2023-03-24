@@ -13,10 +13,10 @@ The purpose of this project is to design and implement a C++ program that applie
 
 # Installation
 To use this library, you will need to have the following dependency installed:
-STB Image for reading and writing image files
+STB Image for reading and writing image files.
 
 # Usage
-To use the library, you can include the necessary header files in your code and link against the library. Here's an example of how you could use the Filter, Image, Projection, Volume, and Slicing classes to process 2D or 3D images in a user-defined way:
+To use the library, you can include the necessary header files in your code and link against the library. Here's an example of how you could use the Filter, Image, Projection, Volume, and Slicing classes to process 2D or 3D images in a user-defined way.
 
 ## Image & Filter
 Create an instance of image: `Image image(image_path);`
@@ -38,6 +38,7 @@ Create an instance of slice(named ThreeDee in this library): `ThreeDee slice;`
 
 ## User interface
 Create a instance of userInput: `UserInput user_funcs;`
+
 Take in user_paths and save_paths:
 
 `user_funcs.UserPathRequest();`
