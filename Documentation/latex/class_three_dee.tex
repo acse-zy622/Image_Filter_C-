@@ -1,0 +1,76 @@
+\hypertarget{class_three_dee}{}\doxysection{Three\+Dee Class Reference}
+\label{class_three_dee}\index{ThreeDee@{ThreeDee}}
+
+
+The \mbox{\hyperlink{class_three_dee}{Three\+Dee}} class implements the x-\/z and y-\/z slicing.  
+
+
+
+
+{\ttfamily \#include $<$3d\+\_\+ops-\/1.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_three_dee_a9d6dce973bd6aec292589c69d76dbc80}\label{class_three_dee_a9d6dce973bd6aec292589c69d76dbc80}} 
+{\bfseries Three\+Dee} ()
+\begin{DoxyCompactList}\small\item\em Construct a new Three Dee\+:\+: Three Dee object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_three_dee_a399e68a7d621c3f15efc91c41ff2664b}\label{class_three_dee_a399e68a7d621c3f15efc91c41ff2664b}} 
+{\bfseries $\sim$\+Three\+Dee} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Three Dee\+:\+: Three Dee object. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{class_three_dee_a703d1131ddf0188ee58ce47dbbb07866}{Get\+\_\+\+XZ\+\_\+slice}} (\mbox{\hyperlink{class_volume}{Volume}} $\ast$img, int y)
+\begin{DoxyCompactList}\small\item\em get x-\/z slice \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{class_three_dee_a56af34dc81f730c3ce806428bbbb8c3a}{Get\+\_\+\+YZ\+\_\+slice}} (\mbox{\hyperlink{class_volume}{Volume}} $\ast$img, int x)
+\begin{DoxyCompactList}\small\item\em get y-\/z slice of a 3D volume \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_three_dee}{Three\+Dee}} class implements the x-\/z and y-\/z slicing. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_three_dee_a703d1131ddf0188ee58ce47dbbb07866}\label{class_three_dee_a703d1131ddf0188ee58ce47dbbb07866}} 
+\index{ThreeDee@{ThreeDee}!Get\_XZ\_slice@{Get\_XZ\_slice}}
+\index{Get\_XZ\_slice@{Get\_XZ\_slice}!ThreeDee@{ThreeDee}}
+\doxysubsubsection{\texorpdfstring{Get\_XZ\_slice()}{Get\_XZ\_slice()}}
+{\footnotesize\ttfamily unsigned char $\ast$ Three\+Dee\+::\+Get\+\_\+\+XZ\+\_\+slice (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_volume}{Volume}} $\ast$}]{img,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+get x-\/z slice 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & $\vert$ the volume that need to get slice \\
+\hline
+{\em y} & $\vert$ a constant y value to slice \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$ $\vert$ a pointer to the slice 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_three_dee_a56af34dc81f730c3ce806428bbbb8c3a}\label{class_three_dee_a56af34dc81f730c3ce806428bbbb8c3a}} 
+\index{ThreeDee@{ThreeDee}!Get\_YZ\_slice@{Get\_YZ\_slice}}
+\index{Get\_YZ\_slice@{Get\_YZ\_slice}!ThreeDee@{ThreeDee}}
+\doxysubsubsection{\texorpdfstring{Get\_YZ\_slice()}{Get\_YZ\_slice()}}
+{\footnotesize\ttfamily unsigned char $\ast$ Three\+Dee\+::\+Get\+\_\+\+YZ\+\_\+slice (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_volume}{Volume}} $\ast$}]{img,  }\item[{int}]{x }\end{DoxyParamCaption})}
+
+
+
+get y-\/z slice of a 3D volume 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & $\vert$ the volume that need to get slice \\
+\hline
+{\em x} & $\vert$ a constant x value to slice \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char$\ast$ $\vert$ a pointer to the slice 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{3d__ops-1_8h}{3d\+\_\+ops-\/1.\+h}}\item 
+\mbox{\hyperlink{3d__ops-1_8cpp}{3d\+\_\+ops-\/1.\+cpp}}\end{DoxyCompactItemize}

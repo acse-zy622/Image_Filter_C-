@@ -1,0 +1,139 @@
+\hypertarget{class_user_input}{}\doxysection{User\+Input Class Reference}
+\label{class_user_input}\index{UserInput@{UserInput}}
+
+
+User Interface.  
+
+
+
+
+{\ttfamily \#include $<$User\+Input.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_user_input_abd94f23b934894cc644bc6e5fd958f43}\label{class_user_input_abd94f23b934894cc644bc6e5fd958f43}} 
+void {\bfseries User\+Path\+Request} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a path to where a single image is located. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_user_input_a417dc1d6a4016936435b8a035832c656}\label{class_user_input_a417dc1d6a4016936435b8a035832c656}} 
+void {\bfseries User\+Save\+Path} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a path to where a single image should be saved. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_user_input_accda3def6459f13ec8bbfb2759a51678}\label{class_user_input_accda3def6459f13ec8bbfb2759a51678}} 
+void {\bfseries User\+Save\+Path\+For\+Slice} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a path to where a single image should be saved This is a helper function for the 3D methods. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_user_input_a046b8e7253f66e83ce01246ba9495255}\label{class_user_input_a046b8e7253f66e83ce01246ba9495255}} 
+void {\bfseries Folder\+Path\+Request} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a folder/directory where a volume of images are stored. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_user_input_a3007d187ed15a7ebc801e9914384dc99}\label{class_user_input_a3007d187ed15a7ebc801e9914384dc99}} 
+void {\bfseries Save\+Folder\+Path} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a folder/directory where a volume of images should be saved. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_input_a022c4db32b726b7c5cb93d6165b0b52c}{Quick\+Menu}} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to navigate through a quick version of the menu. returning a filter key to specify which filter should be chosen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_input_a03308cedc83e4b2518ec2e4fef7fdeaf}{Filter\+Menu}} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to navigate through a longer version of the menu. returning a filter key to specify which filter should be chosen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_input_af8167a06fad7687a5cadf990a2f1f0a1}{Brightness\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify a brightness for the autobright filter. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_input_a8c6e0be0cc91619bda66abc5cb18d356}{XSlice\+\_\+dim}} (int y\+\_\+max)
+\begin{DoxyCompactList}\small\item\em Allows the user to choose the dimensions of which the slice is performed. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_input_ac753b7dff589f9356d1c4ec3defcba85}{YSlice\+\_\+dim}} (int x\+\_\+max)
+\begin{DoxyCompactList}\small\item\em Allows the user to choose the dimensions of which the slice is performed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_user_input_aefd949de19cdb9f7be22403fd87df089}\label{class_user_input_aefd949de19cdb9f7be22403fd87df089}} 
+void {\bfseries xy\+Choice} ()
+\begin{DoxyCompactList}\small\item\em Allows the user to specify if they want to save bot a XZ and YZ slice. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_user_input_a1d428b2a7f9d31ab91346dd82e2e9011}\label{class_user_input_a1d428b2a7f9d31ab91346dd82e2e9011}} 
+string {\bfseries img\+\_\+path}
+\item 
+\mbox{\Hypertarget{class_user_input_ae727b8774d2b9dfec606e2512de0e055}\label{class_user_input_ae727b8774d2b9dfec606e2512de0e055}} 
+string {\bfseries save\+\_\+path}
+\item 
+\mbox{\Hypertarget{class_user_input_a41e26c86ce5941afcb80ed59d37941c2}\label{class_user_input_a41e26c86ce5941afcb80ed59d37941c2}} 
+string {\bfseries folder\+\_\+path}
+\item 
+\mbox{\Hypertarget{class_user_input_ad9fc8d315cf68b1483ea2153226a5a5f}\label{class_user_input_ad9fc8d315cf68b1483ea2153226a5a5f}} 
+string {\bfseries save\+\_\+folder\+\_\+path}
+\item 
+\mbox{\Hypertarget{class_user_input_a556f49136b8b6b9835f13ac3e9b46fad}\label{class_user_input_a556f49136b8b6b9835f13ac3e9b46fad}} 
+string {\bfseries slice\+\_\+filename}
+\item 
+\mbox{\Hypertarget{class_user_input_a60fc2996cfba05391c5ec299746937e1}\label{class_user_input_a60fc2996cfba05391c5ec299746937e1}} 
+char {\bfseries choice}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+User Interface. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_user_input_af8167a06fad7687a5cadf990a2f1f0a1}\label{class_user_input_af8167a06fad7687a5cadf990a2f1f0a1}} 
+\index{UserInput@{UserInput}!BrightnessRequest@{BrightnessRequest}}
+\index{BrightnessRequest@{BrightnessRequest}!UserInput@{UserInput}}
+\doxysubsubsection{\texorpdfstring{BrightnessRequest()}{BrightnessRequest()}}
+{\footnotesize\ttfamily int User\+Input\+::\+Brightness\+Request (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allows the user to specify a brightness for the autobright filter. 
+
+\begin{DoxyReturn}{Returns}
+int user\+\_\+brightness 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_user_input_a03308cedc83e4b2518ec2e4fef7fdeaf}\label{class_user_input_a03308cedc83e4b2518ec2e4fef7fdeaf}} 
+\index{UserInput@{UserInput}!FilterMenu@{FilterMenu}}
+\index{FilterMenu@{FilterMenu}!UserInput@{UserInput}}
+\doxysubsubsection{\texorpdfstring{FilterMenu()}{FilterMenu()}}
+{\footnotesize\ttfamily int User\+Input\+::\+Filter\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allows the user to navigate through a longer version of the menu. returning a filter key to specify which filter should be chosen. 
+
+\begin{DoxyReturn}{Returns}
+int user\+\_\+choice 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_user_input_a022c4db32b726b7c5cb93d6165b0b52c}\label{class_user_input_a022c4db32b726b7c5cb93d6165b0b52c}} 
+\index{UserInput@{UserInput}!QuickMenu@{QuickMenu}}
+\index{QuickMenu@{QuickMenu}!UserInput@{UserInput}}
+\doxysubsubsection{\texorpdfstring{QuickMenu()}{QuickMenu()}}
+{\footnotesize\ttfamily int User\+Input\+::\+Quick\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allows the user to navigate through a quick version of the menu. returning a filter key to specify which filter should be chosen. 
+
+\begin{DoxyReturn}{Returns}
+int user\+\_\+choice 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_user_input_a8c6e0be0cc91619bda66abc5cb18d356}\label{class_user_input_a8c6e0be0cc91619bda66abc5cb18d356}} 
+\index{UserInput@{UserInput}!XSlice\_dim@{XSlice\_dim}}
+\index{XSlice\_dim@{XSlice\_dim}!UserInput@{UserInput}}
+\doxysubsubsection{\texorpdfstring{XSlice\_dim()}{XSlice\_dim()}}
+{\footnotesize\ttfamily int User\+Input\+::\+XSlice\+\_\+dim (\begin{DoxyParamCaption}\item[{int}]{y\+\_\+max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allows the user to choose the dimensions of which the slice is performed. 
+
+\begin{DoxyReturn}{Returns}
+int y\+\_\+dim 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_user_input_ac753b7dff589f9356d1c4ec3defcba85}\label{class_user_input_ac753b7dff589f9356d1c4ec3defcba85}} 
+\index{UserInput@{UserInput}!YSlice\_dim@{YSlice\_dim}}
+\index{YSlice\_dim@{YSlice\_dim}!UserInput@{UserInput}}
+\doxysubsubsection{\texorpdfstring{YSlice\_dim()}{YSlice\_dim()}}
+{\footnotesize\ttfamily int User\+Input\+::\+YSlice\+\_\+dim (\begin{DoxyParamCaption}\item[{int}]{x\+\_\+max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Allows the user to choose the dimensions of which the slice is performed. 
+
+\begin{DoxyReturn}{Returns}
+int x\+\_\+dim 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_user_input_8h}{User\+Input.\+h}}\end{DoxyCompactItemize}

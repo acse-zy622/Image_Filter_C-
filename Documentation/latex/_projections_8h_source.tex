@@ -1,0 +1,31 @@
+\hypertarget{_projections_8h_source}{}\doxysection{Projections.\+h}
+\mbox{\hyperlink{_projections_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_volume_8h}{Volume.h}}"{}}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{36 \textcolor{keyword}{class }\mbox{\hyperlink{class_projection}{Projection}} \{}
+\DoxyCodeLine{37 \textcolor{keyword}{public}:}
+\DoxyCodeLine{43     \mbox{\hyperlink{class_projection_a30876fe77150bd058a43928de26e8e59}{Projection}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_volume}{Volume}}* volume);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{49     \mbox{\hyperlink{class_projection_ac0554f994078308f0169a4629a2d1b0a}{\string~Projection}}();}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{61     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_projection_af603c668781b6af3ed16771d515c0a1a}{IP}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* compare\_function, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* output\_name, \textcolor{keywordtype}{int} min\_z, \textcolor{keywordtype}{int} max\_z, \textcolor{keyword}{const} std::string\& flag);}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{private}:}
+\DoxyCodeLine{67     \textcolor{keyword}{const} \mbox{\hyperlink{class_volume}{Volume}}* volume;}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{76     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{77     T my\_max(\textcolor{keyword}{const} T\& a, \textcolor{keyword}{const} T\& b);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{86     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{87     T my\_min(\textcolor{keyword}{const} T\& a, \textcolor{keyword}{const} T\& b);}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{96     \textcolor{keywordtype}{int} separation(std::vector<unsigned char>\& val, \textcolor{keywordtype}{int} l, \textcolor{keywordtype}{int} h);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{104     \textcolor{keywordtype}{void} quickSort(std::vector<unsigned char>\& val, \textcolor{keywordtype}{int} l, \textcolor{keywordtype}{int} h);}
+\DoxyCodeLine{105 \};}
+
+\end{DoxyCode}

@@ -1,0 +1,72 @@
+\hypertarget{_filter_8h_source}{}\doxysection{Filter.\+h}
+\mbox{\hyperlink{_filter_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_image_8h}{Image.h}}"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{class_filter}{Filter}}}
+\DoxyCodeLine{25 \{}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \textcolor{comment}{// Constructor: Initializes a Filter object with the given image, kernel size, sigma, and depth values.}}
+\DoxyCodeLine{28     \mbox{\hyperlink{class_filter_a96b18c70a6df4848f9488a2a66ee0739}{Filter}}(\mbox{\hyperlink{class_image}{Image}} \&image, \textcolor{keywordtype}{int} k\_size = 0, \textcolor{keywordtype}{float} sig = 1.0f, \textcolor{keywordtype}{int} d = 1);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     \textcolor{comment}{// Destructor: Frees the memory allocated for the corrected\_img buffer.}}
+\DoxyCodeLine{31     \mbox{\hyperlink{class_filter_a502ee334d42eac3edbaf32b599f9c35e}{\string~Filter}}();}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33     \textcolor{comment}{// Applies a grayscale filter to the image.}}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a7ece18337621001bd25d85c4ba90fce2}{ApplyGrayScale}}();}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{comment}{// Applies an automatic color balance filter to the image.}}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a5193d9e29c15594da15e546eefd501fa}{AutoColourBalance}}();}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{comment}{// Adjusts the brightness of the image by the specified amount.}}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a8955cd9d5bd6689fba89456e42384eff}{Brightness}}(\textcolor{keywordtype}{int} brightness);}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{comment}{// Applies the Sobel edge detection filter to the image.}}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a6b59395ba17e0d47696ee60cf7f67bb3}{Sobel}}();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \textcolor{comment}{// Applies the Prewitt edge detection filter to the image.}}
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a444aaa6b6161604895a1c2358bb3fd1a}{Prewitt}}();}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{comment}{// Applies a median blur filter to the image.}}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_af19e15994735dd0fe67a73856f183353}{median\_blur}}();}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{// Applies a box blur filter to the image.}}
+\DoxyCodeLine{52     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a95c3dfa5efd67f6bc93f1170bdb364a3}{box\_blur}}();}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{comment}{// Applies a Gaussian blur filter to the image.}}
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a77a757709526f7a7b4d39ceb78d9e7e8}{gaussian\_blur}}();}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \textcolor{comment}{// Applies a median blur filter to a 3D image.}}
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a1a0f1094e2e376f0c8608554fb9c6ecb}{median\_blur\_3d}}();}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60     \textcolor{comment}{// Applies a Gaussian blur filter to a 3D image.}}
+\DoxyCodeLine{61     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_ab8090af8ce056099388331f67ac119e9}{gaussian\_blur\_3d}}();}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{comment}{// Saves the filtered image to a file at the specified path.}}
+\DoxyCodeLine{64     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_a35c2380eceea7cf32b0a8be0de488d50}{SaveImg}}(\textcolor{keyword}{const} std::string \&s\_path);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{comment}{// Saves the filtered image to a folder at the specified path.}}
+\DoxyCodeLine{67     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_filter_ad4f42a65ca1d0eaabf2ac55939a6c18b}{SaveImgFolder}}(\textcolor{keyword}{const} std::string \&s\_path);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{comment}{// Returns a pointer to the filtered image data.}}
+\DoxyCodeLine{70     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{class_filter_a45210b2f3255f2a98ece707c1b8bc3ce}{get\_corrected\_img}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{private}:}
+\DoxyCodeLine{73     \mbox{\hyperlink{class_image}{Image}} \&image;                 \textcolor{comment}{// Reference to the input image}}
+\DoxyCodeLine{74     \textcolor{keywordtype}{int} kernel\_size;              \textcolor{comment}{// Size of the kernel used for blur operations}}
+\DoxyCodeLine{75     \textcolor{keywordtype}{float} sigma;                  \textcolor{comment}{// Sigma value used for Gaussian blur}}
+\DoxyCodeLine{76     \textcolor{keywordtype}{int} depth;                    \textcolor{comment}{// Depth of the input image (for 3D image operations)}}
+\DoxyCodeLine{77     \textcolor{keywordtype}{int} width;                    \textcolor{comment}{// Width of the input image}}
+\DoxyCodeLine{78     \textcolor{keywordtype}{int} height;                   \textcolor{comment}{// Height of the input image}}
+\DoxyCodeLine{79     \textcolor{keywordtype}{int} channels;                 \textcolor{comment}{// Number of channels in the input image (3 for RGB and 1 for grayscale)}}
+\DoxyCodeLine{80     \textcolor{keywordtype}{size\_t} img\_size;              \textcolor{comment}{// Total size of the image data (width * height * channels)}}
+\DoxyCodeLine{81     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *corrected\_img; \textcolor{comment}{// Pointer to the corrected image data after applying filters}}
+\DoxyCodeLine{82     \textcolor{keywordtype}{void} quickSort1(std::vector<unsigned char>\& val, \textcolor{keywordtype}{int} l, \textcolor{keywordtype}{int} h); \textcolor{comment}{// Quicksort for 3d}}
+\DoxyCodeLine{83     \textcolor{keywordtype}{int} separation1(std::vector<unsigned char>\& val, \textcolor{keywordtype}{int} l, \textcolor{keywordtype}{int} h); \textcolor{comment}{// Partitions s vector for quicksort}}
+\DoxyCodeLine{84 \};}
+
+\end{DoxyCode}

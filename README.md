@@ -48,12 +48,12 @@ Take in user_paths and save_paths:
 # File list
 - Filter.cpp & Filter.h: the code for Filter class
 - Image.cpp & Image.h: the code for Image class
-- Volumn.cpp & Volumn.h: the code for Volume class
-- 3d_ops.cpp & 3d_ops.h: the code for Slicing class
-- Projection.cpp & Projection.h: the code for Projection class
-- User.h: the code for user interface
+- Volume.cpp & Volume.h: the code for Volume class
+- 3d_ops-1.cpp & 3d_ops-1.h: the code for Slicing class
+- Projections.cpp & Projections.h: the code for Projection class
+- UserInput.h: the code for user interface
 - Output folder: Output images
 - Group Kruskal Report.doc: report
 - Unit tests: tests for filtering and projection
 - License
-- Documentation in html format
+- Documentation folder: Documentation in html format, it can be opened with any browser.

@@ -1,0 +1,318 @@
+\hypertarget{_user_input_8h_source}{}\doxysection{User\+Input.\+h}
+\mbox{\hyperlink{_user_input_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <filesystem>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{22 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{28 \textcolor{keyword}{class }\mbox{\hyperlink{class_user_input}{UserInput}} \{}
+\DoxyCodeLine{29 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     \textcolor{keywordtype}{string} img\_path;}
+\DoxyCodeLine{33     \textcolor{keywordtype}{string} save\_path;}
+\DoxyCodeLine{34     \textcolor{keywordtype}{string} folder\_path;}
+\DoxyCodeLine{35     \textcolor{keywordtype}{string} save\_folder\_path;}
+\DoxyCodeLine{36     \textcolor{keywordtype}{string} slice\_filename;}
+\DoxyCodeLine{37     \textcolor{keywordtype}{char} choice;}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_abd94f23b934894cc644bc6e5fd958f43}{UserPathRequest}}() \{}
+\DoxyCodeLine{44         \textcolor{keywordtype}{bool} valid\_path = \textcolor{keyword}{false};}
+\DoxyCodeLine{45         \textcolor{keywordflow}{while} (!valid\_path) \{}
+\DoxyCodeLine{46             cout << \textcolor{stringliteral}{"{}Please enter the path to the image you would like to filter: "{}};}
+\DoxyCodeLine{47             cin >> img\_path;}
+\DoxyCodeLine{48             ifstream file(img\_path);}
+\DoxyCodeLine{49             \textcolor{keywordflow}{if} (file.good()) \{}
+\DoxyCodeLine{50                 valid\_path = \textcolor{keyword}{true};}
+\DoxyCodeLine{51                 cout << \textcolor{stringliteral}{"{}Valid path entered."{}} << endl;}
+\DoxyCodeLine{52             \}}
+\DoxyCodeLine{53             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{54                 cout << \textcolor{stringliteral}{"{}Invalid path entered. Please try again."{}} << endl;}
+\DoxyCodeLine{55             \}}
+\DoxyCodeLine{56         \}}
+\DoxyCodeLine{57     \}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_a417dc1d6a4016936435b8a035832c656}{UserSavePath}}() \{}
+\DoxyCodeLine{64         \textcolor{keywordtype}{char} decider = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66         \textcolor{keywordflow}{while} (decider != \textcolor{charliteral}{'y'} \&\& decider != \textcolor{charliteral}{'n'}) \{}
+\DoxyCodeLine{67             cout << \textcolor{stringliteral}{"{}Would you like to rename the path? [y/n]: "{}};}
+\DoxyCodeLine{68             cin >> decider;}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70             \textcolor{keywordflow}{if} (decider == \textcolor{charliteral}{'y'}) \{}
+\DoxyCodeLine{71                 cout << \textcolor{stringliteral}{"{}Please specify your path: "{}};}
+\DoxyCodeLine{72                 cin >> save\_path;}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74                 \textcolor{comment}{// check file extension}}
+\DoxyCodeLine{75                 \textcolor{keywordtype}{string} extension = save\_path.substr(save\_path.find\_last\_of(\textcolor{stringliteral}{"{}."{}}) + 1);}
+\DoxyCodeLine{76                 \textcolor{keywordflow}{if} (extension != \textcolor{stringliteral}{"{}bmp"{}} \&\& extension != \textcolor{stringliteral}{"{}png"{}} \&\& extension != \textcolor{stringliteral}{"{}jpg"{}} \&\& extension != \textcolor{stringliteral}{"{}jpeg"{}}) \{}
+\DoxyCodeLine{77                     cout << \textcolor{stringliteral}{"{}Invalid file extension. Please save as .bmp, .png, .jpg, or .jpeg."{}} << endl;}
+\DoxyCodeLine{78                     decider = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{79                 \}}
+\DoxyCodeLine{80                 \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{81                     cout << \textcolor{stringliteral}{"{}Saving as: "{}} << save\_path << endl;}
+\DoxyCodeLine{82                     cout << endl;}
+\DoxyCodeLine{83                 \}}
+\DoxyCodeLine{84             \}}
+\DoxyCodeLine{85             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (decider == \textcolor{charliteral}{'n'}) \{}
+\DoxyCodeLine{86                 cout << \textcolor{stringliteral}{"{}Saving as: "{}} << img\_path << endl;}
+\DoxyCodeLine{87                 save\_path = img\_path;}
+\DoxyCodeLine{88                 cout << endl;}
+\DoxyCodeLine{89             \}}
+\DoxyCodeLine{90             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{91                 cout << \textcolor{stringliteral}{"{}Invalid choice"{}} << endl;}
+\DoxyCodeLine{92                 decider = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{93             \}}
+\DoxyCodeLine{94         \}}
+\DoxyCodeLine{95     \}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{102     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_accda3def6459f13ec8bbfb2759a51678}{UserSavePathForSlice}}() \{}
+\DoxyCodeLine{103         \textcolor{keywordtype}{bool} decider = \textcolor{keyword}{false};}
+\DoxyCodeLine{104         }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106         \textcolor{keywordflow}{while} (decider != \textcolor{keyword}{true}) \{}
+\DoxyCodeLine{107             cout << \textcolor{stringliteral}{"{}Please specify the new file name: "{}};}
+\DoxyCodeLine{108             getline(cin, slice\_filename);}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110             \textcolor{comment}{// check file extension}}
+\DoxyCodeLine{111             \textcolor{keywordtype}{string} extension = slice\_filename.substr(slice\_filename.find\_last\_of(\textcolor{stringliteral}{"{}."{}}) + 1);}
+\DoxyCodeLine{112             \textcolor{keywordflow}{if} (extension != \textcolor{stringliteral}{"{}bmp"{}} \&\& extension != \textcolor{stringliteral}{"{}png"{}} \&\& extension != \textcolor{stringliteral}{"{}jpg"{}} \&\& extension != \textcolor{stringliteral}{"{}jpeg"{}}) \{}
+\DoxyCodeLine{113                 cout << \textcolor{stringliteral}{"{}Invalid file extension. Please save as .bmp, .png, .jpg, or .jpeg."{}} << endl;}
+\DoxyCodeLine{114                 decider = \textcolor{keyword}{false};}
+\DoxyCodeLine{115             \}}
+\DoxyCodeLine{116             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{117                 cout << \textcolor{stringliteral}{"{}Valid choice"{}} << endl;}
+\DoxyCodeLine{118                 decider = \textcolor{keyword}{true};}
+\DoxyCodeLine{119             \}}
+\DoxyCodeLine{120         \}}
+\DoxyCodeLine{121     \}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{127     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_a046b8e7253f66e83ce01246ba9495255}{FolderPathRequest}}() \{}
+\DoxyCodeLine{128         \textcolor{keywordtype}{bool} valid\_path = \textcolor{keyword}{false};}
+\DoxyCodeLine{129         \textcolor{keywordflow}{while} (!valid\_path) \{}
+\DoxyCodeLine{130             cout << \textcolor{stringliteral}{"{}Please enter the path to the folder containing images you would like to filter: "{}};}
+\DoxyCodeLine{131             cin >> folder\_path;}
+\DoxyCodeLine{132             \textcolor{keywordflow}{if} (filesystem::is\_directory(folder\_path)) \{}
+\DoxyCodeLine{133                 valid\_path = \textcolor{keyword}{true};}
+\DoxyCodeLine{134                 cout << \textcolor{stringliteral}{"{}Valid path entered."{}} << endl;}
+\DoxyCodeLine{135             \}}
+\DoxyCodeLine{136             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{137                 cout << \textcolor{stringliteral}{"{}Invalid path entered. Please try again."{}} << endl;}
+\DoxyCodeLine{138             \}}
+\DoxyCodeLine{139         \}}
+\DoxyCodeLine{140     \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 }
+\DoxyCodeLine{146     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_a3007d187ed15a7ebc801e9914384dc99}{SaveFolderPath}}() \{}
+\DoxyCodeLine{147         \textcolor{keywordtype}{bool} valid\_path = \textcolor{keyword}{false};}
+\DoxyCodeLine{148         \textcolor{keywordflow}{while} (!valid\_path) \{}
+\DoxyCodeLine{149             cout << \textcolor{stringliteral}{"{}Please enter the path to the folder that you would like to save the images: "{}};}
+\DoxyCodeLine{150             cin >> save\_folder\_path;}
+\DoxyCodeLine{151             \textcolor{keywordflow}{if} (filesystem::is\_directory(save\_folder\_path)) \{}
+\DoxyCodeLine{152                 valid\_path = \textcolor{keyword}{true};}
+\DoxyCodeLine{153                 cout << \textcolor{stringliteral}{"{}Valid path entered."{}} << endl;}
+\DoxyCodeLine{154             \}}
+\DoxyCodeLine{155             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{156                 cout << \textcolor{stringliteral}{"{}Invalid path entered. Please try again."{}} << endl;}
+\DoxyCodeLine{157             \}}
+\DoxyCodeLine{158         \}}
+\DoxyCodeLine{159     \}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{167     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_user_input_a022c4db32b726b7c5cb93d6165b0b52c}{QuickMenu}}() \{}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169         \textcolor{keywordtype}{int} user\_choice;}
+\DoxyCodeLine{170         \textcolor{keywordtype}{bool} selected = \textcolor{keyword}{false};}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172         unordered\_map<int, string> overview = \{ \{11, \textcolor{stringliteral}{"{}GrayScale"{}}\}, \{12, \textcolor{stringliteral}{"{}ColourCorrection"{}}\}, \{13, \textcolor{stringliteral}{"{}AutoBrightness"{}}\},}
+\DoxyCodeLine{173                                               \{21, \textcolor{stringliteral}{"{}BoxBlur"{}}\}, \{22, \textcolor{stringliteral}{"{}MedianBlur"{}}\}, \{23, \textcolor{stringliteral}{"{}GaussBlur"{}}\}, \{31, \textcolor{stringliteral}{"{}Sobel"{}}\},}
+\DoxyCodeLine{174                                               \{32, \textcolor{stringliteral}{"{}Prewitt"{}}\}, \{41, \textcolor{stringliteral}{"{}Median 3D Blur"{}}\}, \{42, \textcolor{stringliteral}{"{}Gaussian 3D Blur"{}}\},}
+\DoxyCodeLine{175                                               \{51, \textcolor{stringliteral}{"{}3D Slicing"{}}\}, \{61, \textcolor{stringliteral}{"{}Max Projection"{}}\}, \{62, \textcolor{stringliteral}{"{}Min Projection"{}}\},}
+\DoxyCodeLine{176                                               \{63, \textcolor{stringliteral}{"{}Mean Projection"{}}\}, \{64, \textcolor{stringliteral}{"{}Median Projection"{}}\} \};}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178         \textcolor{keywordflow}{while} (selected != \textcolor{keyword}{true})\{}
+\DoxyCodeLine{179             cout << \textcolor{stringliteral}{"{}Hello! You have selected Quick Menu\(\backslash\)n"{}};}
+\DoxyCodeLine{180             cout << \textcolor{stringliteral}{"{}Please see your options below: \(\backslash\)n"{}};}
+\DoxyCodeLine{181             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \textcolor{keyword}{const}\& pair : overview) \{}
+\DoxyCodeLine{182                 std::cout << \textcolor{stringliteral}{"{}\{"{}} << pair.first << \textcolor{stringliteral}{"{}: "{}} << pair.second << \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{183             \}}
+\DoxyCodeLine{184             cin >> user\_choice;}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186             \textcolor{keywordflow}{if} (overview.find(user\_choice) != overview.end()) \{}
+\DoxyCodeLine{187                 selected = \textcolor{keyword}{true};}
+\DoxyCodeLine{188             \}}
+\DoxyCodeLine{189             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{190                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid Key -\/ Please retry \(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{191             \}}
+\DoxyCodeLine{192         \}}
+\DoxyCodeLine{193         }
+\DoxyCodeLine{194         \textcolor{keywordflow}{return} user\_choice;}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196         }
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198     \}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{207     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_user_input_a03308cedc83e4b2518ec2e4fef7fdeaf}{FilterMenu}}() \{}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209         \textcolor{keywordtype}{int} user\_choice\_store;}
+\DoxyCodeLine{210         \textcolor{keywordtype}{int} user\_refined\_choice;}
+\DoxyCodeLine{211         \textcolor{keywordtype}{bool} selected = \textcolor{keyword}{false};}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213         unordered\_map<int, string> overview = \{ \{1, \textcolor{stringliteral}{"{}Colour Correction"{}}\}, \{2, \textcolor{stringliteral}{"{}Image Blur"{}}\}, \{3, \textcolor{stringliteral}{"{}Edge Detection"{}}\}, \{4, \textcolor{stringliteral}{"{}3D Filters"{}}\}, \{5, \textcolor{stringliteral}{"{}3D Image Slicing"{}}\} \};}
+\DoxyCodeLine{214         unordered\_map<int, string> ColourCorrect = \{ \{1, \textcolor{stringliteral}{"{}GrayScale"{}}\}, \{2, \textcolor{stringliteral}{"{}ColourCorrection"{}}\}, \{3, \textcolor{stringliteral}{"{}AutoBrightness"{}}\} \};}
+\DoxyCodeLine{215         unordered\_map<int, string> Blur = \{ \{1, \textcolor{stringliteral}{"{}BoxBlur"{}}\}, \{2, \textcolor{stringliteral}{"{}MedianBlur"{}}\}, \{3, \textcolor{stringliteral}{"{}GaussBlur"{}}\} \};}
+\DoxyCodeLine{216         unordered\_map<int, string> EdgeDetection = \{ \{1, \textcolor{stringliteral}{"{}Sobel"{}}\}, \{2, \textcolor{stringliteral}{"{}Prewitt"{}}\} \};}
+\DoxyCodeLine{217         unordered\_map<int, string> Blur\_3d = \{ \{1, \textcolor{stringliteral}{"{}Median 3D Blur"{}}\}, \{2, \textcolor{stringliteral}{"{}Gaussian 3D Blur"{}}\} \};}
+\DoxyCodeLine{218         unordered\_map<int, string> Slicing = \{ \{1, \textcolor{stringliteral}{"{}3D Slicing"{}}\} \};}
+\DoxyCodeLine{219         unordered\_map<int, string> Project = \{ \{1, \textcolor{stringliteral}{"{}Max Projection"{}}\}, \{2, \textcolor{stringliteral}{"{}Min Projection"{}}\}, \{3, \textcolor{stringliteral}{"{}Min Projection"{}}\}, \{4, \textcolor{stringliteral}{"{}Min Projection"{}}\} \};}
+\DoxyCodeLine{220         vector<unordered\_map<int, string>> all\_filters = \{ ColourCorrect, Blur, EdgeDetection, Blur\_3d, Slicing, Project\};}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224         cout << \textcolor{stringliteral}{"{}Please select a filter from the following list using the assigned number: \(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226         \textcolor{keywordflow}{while} (selected != \textcolor{keyword}{true}) \{}
+\DoxyCodeLine{227             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < overview.size()+1; i++) \{}
+\DoxyCodeLine{228                 cout << overview[i] << \textcolor{stringliteral}{"{}: "{}} << i << endl;}
+\DoxyCodeLine{229             \}}
+\DoxyCodeLine{230             cout << \textcolor{stringliteral}{"{}\(\backslash\)nPlease Select: "{}};}
+\DoxyCodeLine{231             cin >> user\_choice\_store;}
+\DoxyCodeLine{232             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{233                 cin.clear();}
+\DoxyCodeLine{234                 cin.ignore(numeric\_limits<streamsize>::max(), \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{235                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter an integer.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{236             \}}
+\DoxyCodeLine{237             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (overview.find(user\_choice\_store) != overview.end()) \{}
+\DoxyCodeLine{238                 selected = \textcolor{keyword}{true};}
+\DoxyCodeLine{239             \}}
+\DoxyCodeLine{240             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{241                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid Key -\/ Please retry \(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{242                 }
+\DoxyCodeLine{243             \}}
+\DoxyCodeLine{244         \}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246         cout << \textcolor{stringliteral}{"{}\(\backslash\)nYou have chosen "{}}<< overview[user\_choice\_store] << \textcolor{stringliteral}{"{} filters! Please select which filter you would like to use: \(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{247         \textcolor{keywordflow}{while} (selected == \textcolor{keyword}{true}) \{}
+\DoxyCodeLine{248             unordered\_map<int, string> user\_filter = all\_filters[user\_choice\_store -\/ 1];}
+\DoxyCodeLine{249             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < user\_filter.size(); i++) \{}
+\DoxyCodeLine{250                 cout << user\_filter[i+1] << \textcolor{stringliteral}{"{}: "{}} << i+1 << endl;}
+\DoxyCodeLine{251             \}}
+\DoxyCodeLine{252             cout << \textcolor{stringliteral}{"{}Please Select: "{}};}
+\DoxyCodeLine{253             cin >> user\_refined\_choice;}
+\DoxyCodeLine{254             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{255                 cin.clear();}
+\DoxyCodeLine{256                 cin.ignore(numeric\_limits<streamsize>::max(), \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{257                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter an integer.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{258             \}}
+\DoxyCodeLine{259             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (user\_filter.find(user\_refined\_choice) != user\_filter.end()) \{}
+\DoxyCodeLine{260                 selected = \textcolor{keyword}{false};}
+\DoxyCodeLine{261             \}}
+\DoxyCodeLine{262             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{263                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid Key -\/ Please retry \(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{264             \}}
+\DoxyCodeLine{265         \}}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267         \textcolor{keywordtype}{string} s1 = to\_string(user\_choice\_store);}
+\DoxyCodeLine{268         \textcolor{keywordtype}{string} s2 = to\_string(user\_refined\_choice);}
+\DoxyCodeLine{269         \textcolor{comment}{//concat choice}}
+\DoxyCodeLine{270         \textcolor{keywordtype}{string} s = s1 + s2;}
+\DoxyCodeLine{271         \textcolor{keywordtype}{int} filter\_key = stoi(s);}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273         \textcolor{keywordflow}{return} filter\_key;}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{275     \}}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{283     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_user_input_af8167a06fad7687a5cadf990a2f1f0a1}{BrightnessRequest}}() \{}
+\DoxyCodeLine{284         \textcolor{keywordtype}{bool} valid = \textcolor{keyword}{false};}
+\DoxyCodeLine{285         \textcolor{keywordtype}{int} user\_brightness;}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287         \textcolor{keywordflow}{while} (!valid) \{}
+\DoxyCodeLine{288             cout << \textcolor{stringliteral}{"{}\(\backslash\)nPlease enter a brightness within the range of 1 to 255: "{}};}
+\DoxyCodeLine{289             cin >> user\_brightness;}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{292                 cin.clear();}
+\DoxyCodeLine{293                 cin.ignore();}
+\DoxyCodeLine{294                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter an integer.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{295             \}}
+\DoxyCodeLine{296             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (user\_brightness < 1 || user\_brightness > 255) \{}
+\DoxyCodeLine{297                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter a value within the range of 1 to 255.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{298             \}}
+\DoxyCodeLine{299             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{300                 valid = \textcolor{keyword}{true};}
+\DoxyCodeLine{301             \}}
+\DoxyCodeLine{302         \}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304         \textcolor{keywordflow}{return} user\_brightness;}
+\DoxyCodeLine{305     \}}
+\DoxyCodeLine{306 }
+\DoxyCodeLine{313     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_user_input_a8c6e0be0cc91619bda66abc5cb18d356}{XSlice\_dim}}(\textcolor{keywordtype}{int} y\_max) \{}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{315         \textcolor{keywordtype}{bool} valid = \textcolor{keyword}{false};}
+\DoxyCodeLine{316         \textcolor{keywordtype}{int} y\_dim;}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318         \textcolor{keywordflow}{while} (valid != \textcolor{keyword}{true}) \{}
+\DoxyCodeLine{319             cout << \textcolor{stringliteral}{"{}\(\backslash\)nPlease enter a y position to slice (max: "{}} << y\_max << \textcolor{stringliteral}{"{}): "{}} << endl;}
+\DoxyCodeLine{320             cin >> y\_dim;}
+\DoxyCodeLine{321             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{322                 cin.clear();}
+\DoxyCodeLine{323                 \textcolor{comment}{//cin.ignore(numeric\_limits<streamsize>::max(), '\(\backslash\)n');}}
+\DoxyCodeLine{324                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter an integer.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{325             \}}
+\DoxyCodeLine{326             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (y\_dim < y\_max) \{}
+\DoxyCodeLine{327                 valid = \textcolor{keyword}{true};}
+\DoxyCodeLine{328             \}}
+\DoxyCodeLine{329         \}}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331         \textcolor{keywordflow}{return} y\_dim;}
+\DoxyCodeLine{332     \}}
+\DoxyCodeLine{333 }
+\DoxyCodeLine{340     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_user_input_ac753b7dff589f9356d1c4ec3defcba85}{YSlice\_dim}}(\textcolor{keywordtype}{int} x\_max) \{}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342         \textcolor{keywordtype}{bool} valid = \textcolor{keyword}{false};}
+\DoxyCodeLine{343         \textcolor{keywordtype}{int} x\_dim;}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345         \textcolor{keywordflow}{while} (valid != \textcolor{keyword}{true}) \{}
+\DoxyCodeLine{346             cout << \textcolor{stringliteral}{"{}\(\backslash\)nPlease enter a x position to slice (max: "{}} << x\_max << \textcolor{stringliteral}{"{}): "{}} << endl;}
+\DoxyCodeLine{347             cin >> x\_dim;}
+\DoxyCodeLine{348             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{349                 cin.clear();}
+\DoxyCodeLine{350                 \textcolor{comment}{//cin.ignore(numeric\_limits<streamsize>::max(), '\(\backslash\)n');}}
+\DoxyCodeLine{351                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter an integer.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{352             \}}
+\DoxyCodeLine{353             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (x\_dim < x\_max) \{}
+\DoxyCodeLine{354                 valid = \textcolor{keyword}{true};}
+\DoxyCodeLine{355             \}}
+\DoxyCodeLine{356         \}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358         \textcolor{keywordflow}{return} x\_dim;}
+\DoxyCodeLine{359     \}}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{366     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_user_input_aefd949de19cdb9f7be22403fd87df089}{xyChoice}}() \{}
+\DoxyCodeLine{367         \textcolor{keywordtype}{bool} valid = \textcolor{keyword}{false};}
+\DoxyCodeLine{368 }
+\DoxyCodeLine{369         \textcolor{keywordflow}{while} (!valid) \{}
+\DoxyCodeLine{370             cout << \textcolor{stringliteral}{"{}\(\backslash\)nPlease enter either 'x' or 'y' for XZ or YZ slice. For both enter 'b': "{}};}
+\DoxyCodeLine{371             cin >> choice;}
+\DoxyCodeLine{372             \textcolor{keywordflow}{if} (cin.fail()) \{}
+\DoxyCodeLine{373                 cin.clear();}
+\DoxyCodeLine{374                 cin.ignore(numeric\_limits<streamsize>::max(), \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{375                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter either 'x' for XZ slice, or 'y' for YZ slice.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{376                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{377             \}}
+\DoxyCodeLine{378             choice = tolower(choice);}
+\DoxyCodeLine{379             \textcolor{keywordflow}{if} (choice != \textcolor{charliteral}{'x'} \&\& choice != \textcolor{charliteral}{'y'} \&\& choice != \textcolor{charliteral}{'b'}) \{}
+\DoxyCodeLine{380                 cout << \textcolor{stringliteral}{"{}\(\backslash\)nInvalid input. Please enter either 'x' for XZ slice, 'y' for YZ slice, or 'b' for both.\(\backslash\)n"{}} << endl;}
+\DoxyCodeLine{381                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{382             \}}
+\DoxyCodeLine{383             valid = \textcolor{keyword}{true};}
+\DoxyCodeLine{384         \}}
+\DoxyCodeLine{385     \}}
+\DoxyCodeLine{386 \};}
+
+\end{DoxyCode}

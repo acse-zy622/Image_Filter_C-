@@ -1,0 +1,124 @@
+\hypertarget{class_image}{}\doxysection{Image Class Reference}
+\label{class_image}\index{Image@{Image}}
+
+
+The \mbox{\hyperlink{class_image}{Image}} class represents an image with its data, width, height, and channels.  
+
+
+
+
+{\ttfamily \#include $<$Image.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_image_aeb20f47d09f20394e9db3529b246f6f4}{Image}} (unsigned char $\ast$data, int width, int height, int channels)
+\begin{DoxyCompactList}\small\item\em Constructs an \mbox{\hyperlink{class_image}{Image}} object for testing purposes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_image_aff46375ef0cbe47f998dacd659286371}{Image}} (const std\+::string \&i\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Constructs an \mbox{\hyperlink{class_image}{Image}} object by loading an image from a file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_image_a1642b1ab6e1c8d15c78a59557642c20f}{get\+\_\+width}} () const
+\begin{DoxyCompactList}\small\item\em Returns the width of the image. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_image_a04c7d24c9473e327e15c560c8193b684}{get\+\_\+height}} () const
+\begin{DoxyCompactList}\small\item\em Returns the height of the image. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_image_a85ddd87e115db3ef865ccee97b7aed2c}{get\+\_\+channels}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of channels in the image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_image_a22b726c8306f78b5022e0670ddb0937f}\label{class_image_a22b726c8306f78b5022e0670ddb0937f}} 
+unsigned char $\ast$ {\bfseries data}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_image}{Image}} class represents an image with its data, width, height, and channels. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_image_aeb20f47d09f20394e9db3529b246f6f4}\label{class_image_aeb20f47d09f20394e9db3529b246f6f4}} 
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\doxysubsubsection{\texorpdfstring{Image()}{Image()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Image\+::\+Image (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{data,  }\item[{int}]{width,  }\item[{int}]{height,  }\item[{int}]{channels }\end{DoxyParamCaption})}
+
+
+
+Constructs an \mbox{\hyperlink{class_image}{Image}} object for testing purposes. 
+
+This constructor initializes an \mbox{\hyperlink{class_image}{Image}} object with the provided data, width, height, and channels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the image data. \\
+\hline
+{\em width} & Width of the image. \\
+\hline
+{\em height} & Height of the image. \\
+\hline
+{\em channels} & Number of channels in the image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_image_aff46375ef0cbe47f998dacd659286371}\label{class_image_aff46375ef0cbe47f998dacd659286371}} 
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\doxysubsubsection{\texorpdfstring{Image()}{Image()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Image\+::\+Image (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{img\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Constructs an \mbox{\hyperlink{class_image}{Image}} object by loading an image from a file. 
+
+This constructor initializes an \mbox{\hyperlink{class_image}{Image}} object by loading an image from the specified file path.
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+\_\+path} & Path to the image file. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_image_a85ddd87e115db3ef865ccee97b7aed2c}\label{class_image_a85ddd87e115db3ef865ccee97b7aed2c}} 
+\index{Image@{Image}!get\_channels@{get\_channels}}
+\index{get\_channels@{get\_channels}!Image@{Image}}
+\doxysubsubsection{\texorpdfstring{get\_channels()}{get\_channels()}}
+{\footnotesize\ttfamily int Image\+::get\+\_\+channels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the number of channels in the image. 
+
+\begin{DoxyReturn}{Returns}
+Number of channels in the image. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_image_a04c7d24c9473e327e15c560c8193b684}\label{class_image_a04c7d24c9473e327e15c560c8193b684}} 
+\index{Image@{Image}!get\_height@{get\_height}}
+\index{get\_height@{get\_height}!Image@{Image}}
+\doxysubsubsection{\texorpdfstring{get\_height()}{get\_height()}}
+{\footnotesize\ttfamily int Image\+::get\+\_\+height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the height of the image. 
+
+\begin{DoxyReturn}{Returns}
+Height of the image. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_image_a1642b1ab6e1c8d15c78a59557642c20f}\label{class_image_a1642b1ab6e1c8d15c78a59557642c20f}} 
+\index{Image@{Image}!get\_width@{get\_width}}
+\index{get\_width@{get\_width}!Image@{Image}}
+\doxysubsubsection{\texorpdfstring{get\_width()}{get\_width()}}
+{\footnotesize\ttfamily int Image\+::get\+\_\+width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the width of the image. 
+
+\begin{DoxyReturn}{Returns}
+Width of the image. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_image_8h}{Image.\+h}}\item 
+\mbox{\hyperlink{_image_8cpp}{Image.\+cpp}}\end{DoxyCompactItemize}

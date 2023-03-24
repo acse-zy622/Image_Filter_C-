@@ -1,0 +1,46 @@
+\hypertarget{_volume_8h_source}{}\doxysection{Volume.\+h}
+\mbox{\hyperlink{_volume_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include "{}stb\_image\_write.h"{}}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_image_8h}{Image.h}}"{}}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 }
+\DoxyCodeLine{37 \textcolor{keyword}{class }\mbox{\hyperlink{class_volume}{Volume}} \{}
+\DoxyCodeLine{38 \textcolor{keyword}{public}:}
+\DoxyCodeLine{43     \mbox{\hyperlink{class_volume_a7d3bb81da95df85009b9f3ddd985cd9f}{Volume}}();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{50     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_volume_ae9e604d1b934eeb625740e830b255ea6}{addTestImage}}(\mbox{\hyperlink{class_image}{Image}}\& im);}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_volume_aa440a5f94f727640bfb9be82547bcbec}{addImage}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{68     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_volume_ac8624b3fdb2052fb055a9207005ae3c6}{trans\_volume}}(\textcolor{keywordtype}{int} w, \textcolor{keywordtype}{int} h, \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{int} d);}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{75     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_volume_a793b3f4ac6266d7a5891380520d02eeb}{addImageFolder}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* folderPath);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{84     \textcolor{keyword}{const} \mbox{\hyperlink{class_image}{Image}}\& \mbox{\hyperlink{class_volume_a8104b2fd838a5ad9d4e5e03ad5b88af3}{getImage}}(\textcolor{keywordtype}{int} i);}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{91     \textcolor{keyword}{const} std::vector<Image>\& \mbox{\hyperlink{class_volume_a6002b3a9d481c13d720e7b8655a38270}{getImageList}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{98     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_volume_ae3a005d116d3544734343ccf2f3e8e72}{get\_size}}();}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{104     \mbox{\hyperlink{class_volume_ad5d2015f5c0fea005f02be8f6d60b212}{\string~Volume}}();}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{keyword}{private}:}
+\DoxyCodeLine{107     \textcolor{comment}{// A vector holding the images in the Volume.}}
+\DoxyCodeLine{108     std::vector<Image> images;}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110     \textcolor{comment}{// A vector used for internal operations.}}
+\DoxyCodeLine{111     std::vector<Image> v;}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113     \textcolor{comment}{// 1D array for 3d filter computation}}
+\DoxyCodeLine{114     \textcolor{comment}{/*unsigned char data\_1;*/}}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{123     \textcolor{keywordtype}{bool} sort\_file(\textcolor{keyword}{const} std::filesystem::path\& a, \textcolor{keyword}{const} std::filesystem::path\& b);}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{130     \textcolor{keywordtype}{void} file\_sort(std::vector<std::filesystem::path>\& file\_paths);}
+\DoxyCodeLine{131 \};}
+
+\end{DoxyCode}

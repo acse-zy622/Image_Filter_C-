@@ -1,0 +1,233 @@
+\hypertarget{class_volume}{}\doxysection{Volume Class Reference}
+\label{class_volume}\index{Volume@{Volume}}
+
+
+The \mbox{\hyperlink{class_volume}{Volume}} class represents a collection of images.  
+
+
+
+
+{\ttfamily \#include $<$Volume.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_volume_a7d3bb81da95df85009b9f3ddd985cd9f}{Volume}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for the \mbox{\hyperlink{class_volume}{Volume}} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_volume_ae9e604d1b934eeb625740e830b255ea6}{add\+Test\+Image}} (\mbox{\hyperlink{class_image}{Image}} \&im)
+\begin{DoxyCompactList}\small\item\em Adds a self-\/made image to the \mbox{\hyperlink{class_volume}{Volume}} for testing purposes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_volume_aa440a5f94f727640bfb9be82547bcbec}{add\+Image}} (const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Adds an image to the \mbox{\hyperlink{class_volume}{Volume}} by loading it from a file. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{class_volume_ac8624b3fdb2052fb055a9207005ae3c6}{trans\+\_\+volume}} (int w, int h, int c, int d)
+\begin{DoxyCompactList}\small\item\em Generates a 1D array of unsigned char values to represent the \mbox{\hyperlink{class_volume}{Volume}} for 3D filter computations. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_volume_a793b3f4ac6266d7a5891380520d02eeb}{add\+Image\+Folder}} (const char $\ast$folder\+Path)
+\begin{DoxyCompactList}\small\item\em Adds all images from a folder to the \mbox{\hyperlink{class_volume}{Volume}} by loading them from files in numerical order. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{class_image}{Image}} \& \mbox{\hyperlink{class_volume_a8104b2fd838a5ad9d4e5e03ad5b88af3}{get\+Image}} (int i)
+\begin{DoxyCompactList}\small\item\em Retrieves the image at the given index in the \mbox{\hyperlink{class_volume}{Volume}}. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \mbox{\hyperlink{class_image}{Image}} $>$ \& \mbox{\hyperlink{class_volume_a6002b3a9d481c13d720e7b8655a38270}{get\+Image\+List}} () const
+\begin{DoxyCompactList}\small\item\em Returns a constant reference to the list of images in the \mbox{\hyperlink{class_volume}{Volume}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_volume_ae3a005d116d3544734343ccf2f3e8e72}{get\+\_\+size}} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of images in the \mbox{\hyperlink{class_volume}{Volume}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_volume_ad5d2015f5c0fea005f02be8f6d60b212}{$\sim$\+Volume}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \mbox{\hyperlink{class_volume}{Volume}} class. Frees image memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_volume}{Volume}} class represents a collection of images. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_volume_a7d3bb81da95df85009b9f3ddd985cd9f}\label{class_volume_a7d3bb81da95df85009b9f3ddd985cd9f}} 
+\index{Volume@{Volume}!Volume@{Volume}}
+\index{Volume@{Volume}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{Volume()}{Volume()}}
+{\footnotesize\ttfamily Volume\+::\+Volume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor for the \mbox{\hyperlink{class_volume}{Volume}} class. 
+
+Default constructor for the \mbox{\hyperlink{class_volume}{Volume}} class. \mbox{\Hypertarget{class_volume_ad5d2015f5c0fea005f02be8f6d60b212}\label{class_volume_ad5d2015f5c0fea005f02be8f6d60b212}} 
+\index{Volume@{Volume}!````~Volume@{$\sim$Volume}}
+\index{````~Volume@{$\sim$Volume}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{$\sim$Volume()}{~Volume()}}
+{\footnotesize\ttfamily Volume\+::$\sim$\+Volume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor for the \mbox{\hyperlink{class_volume}{Volume}} class. Frees image memory. 
+
+Destructor for the \mbox{\hyperlink{class_volume}{Volume}} class, frees image memory. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_volume_aa440a5f94f727640bfb9be82547bcbec}\label{class_volume_aa440a5f94f727640bfb9be82547bcbec}} 
+\index{Volume@{Volume}!addImage@{addImage}}
+\index{addImage@{addImage}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{addImage()}{addImage()}}
+{\footnotesize\ttfamily void Volume\+::add\+Image (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Adds an image to the \mbox{\hyperlink{class_volume}{Volume}} by loading it from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The path to the file containing the image.\\
+\hline
+\end{DoxyParams}
+Adds an image to the \mbox{\hyperlink{class_volume}{Volume}} by loading it from a file. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em filename} & The file path of the image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_volume_a793b3f4ac6266d7a5891380520d02eeb}\label{class_volume_a793b3f4ac6266d7a5891380520d02eeb}} 
+\index{Volume@{Volume}!addImageFolder@{addImageFolder}}
+\index{addImageFolder@{addImageFolder}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{addImageFolder()}{addImageFolder()}}
+{\footnotesize\ttfamily void Volume\+::add\+Image\+Folder (\begin{DoxyParamCaption}\item[{const char $\ast$}]{folder\+Path }\end{DoxyParamCaption})}
+
+
+
+Adds all images from a folder to the \mbox{\hyperlink{class_volume}{Volume}} by loading them from files in numerical order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder\+Path} & The path to the folder containing the images.\\
+\hline
+\end{DoxyParams}
+Adds a stack of images to the \mbox{\hyperlink{class_volume}{Volume}} by loading them from a folder with order.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em folder\+Path} & The file path of the folder containing the images. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_volume_ae9e604d1b934eeb625740e830b255ea6}\label{class_volume_ae9e604d1b934eeb625740e830b255ea6}} 
+\index{Volume@{Volume}!addTestImage@{addTestImage}}
+\index{addTestImage@{addTestImage}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{addTestImage()}{addTestImage()}}
+{\footnotesize\ttfamily void Volume\+::add\+Test\+Image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_image}{Image}} \&}]{im }\end{DoxyParamCaption})}
+
+
+
+Adds a self-\/made image to the \mbox{\hyperlink{class_volume}{Volume}} for testing purposes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em im} & The image to add to the \mbox{\hyperlink{class_volume}{Volume}}.\\
+\hline
+\end{DoxyParams}
+Adds an image for unit testing. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em im} & The \mbox{\hyperlink{class_image}{Image}} object to add. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_volume_ae3a005d116d3544734343ccf2f3e8e72}\label{class_volume_ae3a005d116d3544734343ccf2f3e8e72}} 
+\index{Volume@{Volume}!get\_size@{get\_size}}
+\index{get\_size@{get\_size}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{get\_size()}{get\_size()}}
+{\footnotesize\ttfamily int Volume\+::get\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the number of images in the \mbox{\hyperlink{class_volume}{Volume}}. 
+
+\begin{DoxyReturn}{Returns}
+The number of images in the \mbox{\hyperlink{class_volume}{Volume}}.
+
+The number of images in the \mbox{\hyperlink{class_volume}{Volume}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_volume_a8104b2fd838a5ad9d4e5e03ad5b88af3}\label{class_volume_a8104b2fd838a5ad9d4e5e03ad5b88af3}} 
+\index{Volume@{Volume}!getImage@{getImage}}
+\index{getImage@{getImage}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{getImage()}{getImage()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_image}{Image}} \& Volume\+::get\+Image (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+Retrieves the image at the given index in the \mbox{\hyperlink{class_volume}{Volume}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the image to retrieve. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A constant reference to the requested image. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::out\+\_\+of\+\_\+range} & if the index is out of range.\\
+\hline
+\end{DoxyExceptions}
+Returns a specific image from the \mbox{\hyperlink{class_volume}{Volume}} by index. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i} & The index of the image to return. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A constant reference to the \mbox{\hyperlink{class_image}{Image}} object. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::out\+\_\+of\+\_\+range} & If the index is out of range. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_volume_a6002b3a9d481c13d720e7b8655a38270}\label{class_volume_a6002b3a9d481c13d720e7b8655a38270}} 
+\index{Volume@{Volume}!getImageList@{getImageList}}
+\index{getImageList@{getImageList}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{getImageList()}{getImageList()}}
+{\footnotesize\ttfamily const std\+::vector$<$ \mbox{\hyperlink{class_image}{Image}} $>$ \& Volume\+::get\+Image\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns a constant reference to the list of images in the \mbox{\hyperlink{class_volume}{Volume}}. 
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the vector of images in the \mbox{\hyperlink{class_volume}{Volume}}.
+
+A constant reference to the list of images in the \mbox{\hyperlink{class_volume}{Volume}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_volume_ac8624b3fdb2052fb055a9207005ae3c6}\label{class_volume_ac8624b3fdb2052fb055a9207005ae3c6}} 
+\index{Volume@{Volume}!trans\_volume@{trans\_volume}}
+\index{trans\_volume@{trans\_volume}!Volume@{Volume}}
+\doxysubsubsection{\texorpdfstring{trans\_volume()}{trans\_volume()}}
+{\footnotesize\ttfamily unsigned char $\ast$ Volume\+::trans\+\_\+volume (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h,  }\item[{int}]{c,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Generates a 1D array of unsigned char values to represent the \mbox{\hyperlink{class_volume}{Volume}} for 3D filter computations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & The width of each image in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+{\em h} & The height of each image in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+{\em c} & The number of channels in each image in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+{\em d} & The number of images in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the 1D array of unsigned char values.
+\end{DoxyReturn}
+Returns a 1D array of image data for 3D filter computation. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em w} & The width of the images in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & The height of the images in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em c} & The number of channels in the images in the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em d} & The depth of the \mbox{\hyperlink{class_volume}{Volume}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the 1D array of image data. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_volume_8h}{Volume.\+h}}\item 
+\mbox{\hyperlink{_volume_8cpp}{Volume.\+cpp}}\end{DoxyCompactItemize}

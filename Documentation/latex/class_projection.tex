@@ -1,0 +1,99 @@
+\hypertarget{class_projection}{}\doxysection{Projection Class Reference}
+\label{class_projection}\index{Projection@{Projection}}
+
+
+The \mbox{\hyperlink{class_projection}{Projection}} class represents the process of creating projections from a \mbox{\hyperlink{class_volume}{Volume}} of images.  
+
+
+
+
+{\ttfamily \#include $<$Projections.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_projection_a30876fe77150bd058a43928de26e8e59}{Projection}} (const \mbox{\hyperlink{class_volume}{Volume}} $\ast$volume)
+\begin{DoxyCompactList}\small\item\em Constructor that takes a pointer to a \mbox{\hyperlink{class_volume}{Volume}} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_projection_ac0554f994078308f0169a4629a2d1b0a}{$\sim$\+Projection}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \mbox{\hyperlink{class_projection}{Projection}} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_projection_af603c668781b6af3ed16771d515c0a1a}{IP}} (const char $\ast$compare\+\_\+function, const char $\ast$output\+\_\+name, int min\+\_\+z, int max\+\_\+z, const std\+::string \&flag)
+\begin{DoxyCompactList}\small\item\em Creates an intensity projection of the \mbox{\hyperlink{class_volume}{Volume}} using the specified compare function, output filename, and the range of images to be considered in the projection (min\+\_\+z and max\+\_\+z). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_projection}{Projection}} class represents the process of creating projections from a \mbox{\hyperlink{class_volume}{Volume}} of images. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_projection_a30876fe77150bd058a43928de26e8e59}\label{class_projection_a30876fe77150bd058a43928de26e8e59}} 
+\index{Projection@{Projection}!Projection@{Projection}}
+\index{Projection@{Projection}!Projection@{Projection}}
+\doxysubsubsection{\texorpdfstring{Projection()}{Projection()}}
+{\footnotesize\ttfamily Projection\+::\+Projection (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_volume}{Volume}} $\ast$}]{volume }\end{DoxyParamCaption})}
+
+
+
+Constructor that takes a pointer to a \mbox{\hyperlink{class_volume}{Volume}} object. 
+
+Constructor for the \mbox{\hyperlink{class_projection}{Projection}} class, initializing the volume member variable with the provided \mbox{\hyperlink{class_volume}{Volume}} pointer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em volume} & A pointer to the \mbox{\hyperlink{class_volume}{Volume}} object containing the images for the projection.\\
+\hline
+{\em volume} & A pointer to a \mbox{\hyperlink{class_volume}{Volume}} object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_projection_ac0554f994078308f0169a4629a2d1b0a}\label{class_projection_ac0554f994078308f0169a4629a2d1b0a}} 
+\index{Projection@{Projection}!````~Projection@{$\sim$Projection}}
+\index{````~Projection@{$\sim$Projection}!Projection@{Projection}}
+\doxysubsubsection{\texorpdfstring{$\sim$Projection()}{~Projection()}}
+{\footnotesize\ttfamily Projection\+::$\sim$\+Projection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor for the \mbox{\hyperlink{class_projection}{Projection}} class. 
+
+Destructor for the \mbox{\hyperlink{class_projection}{Projection}} class, which does not have any specific resource deallocation. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_projection_af603c668781b6af3ed16771d515c0a1a}\label{class_projection_af603c668781b6af3ed16771d515c0a1a}} 
+\index{Projection@{Projection}!IP@{IP}}
+\index{IP@{IP}!Projection@{Projection}}
+\doxysubsubsection{\texorpdfstring{IP()}{IP()}}
+{\footnotesize\ttfamily void Projection\+::\+IP (\begin{DoxyParamCaption}\item[{const char $\ast$}]{compare\+\_\+function,  }\item[{const char $\ast$}]{output\+\_\+name,  }\item[{int}]{min\+\_\+z,  }\item[{int}]{max\+\_\+z,  }\item[{const std\+::string \&}]{flag }\end{DoxyParamCaption})}
+
+
+
+Creates an intensity projection of the \mbox{\hyperlink{class_volume}{Volume}} using the specified compare function, output filename, and the range of images to be considered in the projection (min\+\_\+z and max\+\_\+z). 
+
+Defines the IP method for the \mbox{\hyperlink{class_projection}{Projection}} class, taking the compare function, output name, and min/max z values as parameters.
+
+
+\begin{DoxyParams}{Parameters}
+{\em compare\+\_\+function} & The name of the function to use for intensity comparison (either \char`\"{}max\char`\"{} or \char`\"{}min\char`\"{}). \\
+\hline
+{\em output\+\_\+name} & The filename to use for the output projection image. \\
+\hline
+{\em min\+\_\+z} & The index of the first image to be considered in the projection. \\
+\hline
+{\em max\+\_\+z} & The index of the last image to be considered in the projection. \\
+\hline
+{\em flag} & A string flag indicating the direction of the projection (either \char`\"{}xy\char`\"{} or \char`\"{}xz\char`\"{}).\\
+\hline
+{\em compare\+\_\+function} & A C-\/style string representing the type of projection operation to perform (max, min, mean, or median).\\
+\hline
+{\em output\+\_\+name} & A C-\/style string representing the name of the output file to save the projection to.\\
+\hline
+{\em min\+\_\+z} & An integer representing the minimum z-\/value of the thin slab to consider.\\
+\hline
+{\em max\+\_\+z} & An integer representing the maximum z-\/value of the thin slab to consider.\\
+\hline
+{\em flag} & A std\+::string object that, when set to \char`\"{}test\char`\"{}, tests the output against predetermined values rather than saving it to a file. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_projections_8h}{Projections.\+h}}\item 
+\mbox{\hyperlink{_projections_8cpp}{Projections.\+cpp}}\end{DoxyCompactItemize}

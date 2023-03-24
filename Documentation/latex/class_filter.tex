@@ -1,0 +1,268 @@
+\hypertarget{class_filter}{}\doxysection{Filter Class Reference}
+\label{class_filter}\index{Filter@{Filter}}
+
+
+The \mbox{\hyperlink{class_filter}{Filter}} class provides various image filters.  
+
+
+
+
+{\ttfamily \#include $<$Filter.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_filter_a96b18c70a6df4848f9488a2a66ee0739}{Filter}} (\mbox{\hyperlink{class_image}{Image}} \&image, int k\+\_\+size=0, float sig=1.\+0f, int d=1)
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{class_filter}{Filter}} object for image processing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_filter_a502ee334d42eac3edbaf32b599f9c35e}{$\sim$\+Filter}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \mbox{\hyperlink{class_filter}{Filter}} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a7ece18337621001bd25d85c4ba90fce2}{Apply\+Gray\+Scale}} ()
+\begin{DoxyCompactList}\small\item\em Applies grayscale to an image. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filter_a5193d9e29c15594da15e546eefd501fa}\label{class_filter_a5193d9e29c15594da15e546eefd501fa}} 
+void {\bfseries Auto\+Colour\+Balance} ()
+\begin{DoxyCompactList}\small\item\em Balances the color of the image by scaling each color channel by the ratio of the maximum intensity to the average intensity of that channel. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a8955cd9d5bd6689fba89456e42384eff}{Brightness}} (int brightness)
+\begin{DoxyCompactList}\small\item\em Adjusts brightness of the image by scaling the intensity of each color channel by the ratio of the desired brightness to the average intensity of that channel. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a6b59395ba17e0d47696ee60cf7f67bb3}{Sobel}} ()
+\begin{DoxyCompactList}\small\item\em Applies the Sobel edge detection filter to the image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a444aaa6b6161604895a1c2358bb3fd1a}{Prewitt}} ()
+\begin{DoxyCompactList}\small\item\em Applies the Prewitt edge detection filter to the image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_af19e15994735dd0fe67a73856f183353}{median\+\_\+blur}} ()
+\begin{DoxyCompactList}\small\item\em Applies a median blur to the input image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a95c3dfa5efd67f6bc93f1170bdb364a3}{box\+\_\+blur}} ()
+\begin{DoxyCompactList}\small\item\em Applies a box blur filter to the image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a77a757709526f7a7b4d39ceb78d9e7e8}{gaussian\+\_\+blur}} ()
+\begin{DoxyCompactList}\small\item\em Applies Gaussian blur to the input image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_a1a0f1094e2e376f0c8608554fb9c6ecb}{median\+\_\+blur\+\_\+3d}} ()
+\item 
+void \mbox{\hyperlink{class_filter_ab8090af8ce056099388331f67ac119e9}{gaussian\+\_\+blur\+\_\+3d}} ()
+\item 
+void \mbox{\hyperlink{class_filter_a35c2380eceea7cf32b0a8be0de488d50}{Save\+Img}} (const std\+::string \&s\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Saves the filtered image to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_filter_ad4f42a65ca1d0eaabf2ac55939a6c18b}{Save\+Img\+Folder}} (const std\+::string \&s\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Saves the corrected image to a folder. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{class_filter_a45210b2f3255f2a98ece707c1b8bc3ce}{get\+\_\+corrected\+\_\+img}} () const
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the filtered image data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_filter}{Filter}} class provides various image filters. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_filter_a96b18c70a6df4848f9488a2a66ee0739}\label{class_filter_a96b18c70a6df4848f9488a2a66ee0739}} 
+\index{Filter@{Filter}!Filter@{Filter}}
+\index{Filter@{Filter}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{Filter()}{Filter()}}
+{\footnotesize\ttfamily Filter\+::\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_image}{Image}} \&}]{image,  }\item[{int}]{kernel\+\_\+size = {\ttfamily 0},  }\item[{float}]{sigma = {\ttfamily 1.0f},  }\item[{int}]{depth = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Constructs a \mbox{\hyperlink{class_filter}{Filter}} object for image processing. 
+
+This constructor initializes a \mbox{\hyperlink{class_filter}{Filter}} object with the provided image, kernel size, sigma value, and depth values. It also sets the width, height, channels, and image size based on the input image.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Reference to the input image to be processed. \\
+\hline
+{\em kernel\+\_\+size} & The size of the kernel to be used in the filter. \\
+\hline
+{\em sigma} & The standard deviation of the Gaussian distribution used in the Gaussian blur filter. \\
+\hline
+{\em depth} & depth Integer representing the depth of the image (number of layers or slices) for 3D image processing. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filter_a502ee334d42eac3edbaf32b599f9c35e}\label{class_filter_a502ee334d42eac3edbaf32b599f9c35e}} 
+\index{Filter@{Filter}!````~Filter@{$\sim$Filter}}
+\index{````~Filter@{$\sim$Filter}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{$\sim$Filter()}{~Filter()}}
+{\footnotesize\ttfamily Filter\+::$\sim$\+Filter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor for the \mbox{\hyperlink{class_filter}{Filter}} object. 
+
+This destructor releases the memory allocated for the corrected\+\_\+img buffer. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_filter_a7ece18337621001bd25d85c4ba90fce2}\label{class_filter_a7ece18337621001bd25d85c4ba90fce2}} 
+\index{Filter@{Filter}!ApplyGrayScale@{ApplyGrayScale}}
+\index{ApplyGrayScale@{ApplyGrayScale}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{ApplyGrayScale()}{ApplyGrayScale()}}
+{\footnotesize\ttfamily void Filter\+::\+Apply\+Gray\+Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies grayscale to an image. 
+
+Calculates the average of each RGB value within the pixel and stores it as an unsigned 8-\/bit integer in the output pixel. If the image has an alpha channel, it stores the alpha channel in the second channel of the grayscale image. \mbox{\Hypertarget{class_filter_a95c3dfa5efd67f6bc93f1170bdb364a3}\label{class_filter_a95c3dfa5efd67f6bc93f1170bdb364a3}} 
+\index{Filter@{Filter}!box\_blur@{box\_blur}}
+\index{box\_blur@{box\_blur}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{box\_blur()}{box\_blur()}}
+{\footnotesize\ttfamily void Filter\+::box\+\_\+blur (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies a box blur filter to the image. 
+
+This function averages the pixel values within a square kernel of the specified size to apply a box blur filter to the image. The filter smooths the image and reduces noise. \mbox{\Hypertarget{class_filter_a8955cd9d5bd6689fba89456e42384eff}\label{class_filter_a8955cd9d5bd6689fba89456e42384eff}} 
+\index{Filter@{Filter}!Brightness@{Brightness}}
+\index{Brightness@{Brightness}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{Brightness()}{Brightness()}}
+{\footnotesize\ttfamily void Filter\+::\+Brightness (\begin{DoxyParamCaption}\item[{int}]{brightness }\end{DoxyParamCaption})}
+
+
+
+Adjusts brightness of the image by scaling the intensity of each color channel by the ratio of the desired brightness to the average intensity of that channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em brightness} & The desired brightness level, as an integer between 0 and 255. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_filter_a77a757709526f7a7b4d39ceb78d9e7e8}\label{class_filter_a77a757709526f7a7b4d39ceb78d9e7e8}} 
+\index{Filter@{Filter}!gaussian\_blur@{gaussian\_blur}}
+\index{gaussian\_blur@{gaussian\_blur}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{gaussian\_blur()}{gaussian\_blur()}}
+{\footnotesize\ttfamily void Filter\+::gaussian\+\_\+blur (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies Gaussian blur to the input image. 
+
+This function uses a Gaussian kernel to apply a Gaussian blur to the input image. The \mbox{\hyperlink{class_filter}{Filter}} class instantiation includes the kernel size and standard deviation/sigma. The appearance of the final image will be smoother, with less noise and detail. \mbox{\Hypertarget{class_filter_ab8090af8ce056099388331f67ac119e9}\label{class_filter_ab8090af8ce056099388331f67ac119e9}} 
+\index{Filter@{Filter}!gaussian\_blur\_3d@{gaussian\_blur\_3d}}
+\index{gaussian\_blur\_3d@{gaussian\_blur\_3d}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{gaussian\_blur\_3d()}{gaussian\_blur\_3d()}}
+{\footnotesize\ttfamily void Filter\+::gaussian\+\_\+blur\+\_\+3d (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Applies a 3D Gaussian blur filter to the input image data for each channel. The blur is computed using a Gaussian kernel with the specified size and standard deviation. The input data is assumed to be stored in row-\/major order with interleaved channels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the input image data. The size of the data buffer must be at least w $\ast$ h $\ast$ d $\ast$ c bytes. \\
+\hline
+{\em w} & Width of the input image in pixels. \\
+\hline
+{\em h} & Height of the input image in pixels. \\
+\hline
+{\em d} & Depth of the input image in pixels. \\
+\hline
+{\em c} & Number of channels in the input image. \\
+\hline
+{\em kernel\+\_\+size} & Size of the Gaussian kernel in each dimension (e.\+g., 3 for a 3x3x3 kernel). \\
+\hline
+{\em sigma} & Standard deviation of the Gaussian kernel in each dimension. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filter_a45210b2f3255f2a98ece707c1b8bc3ce}\label{class_filter_a45210b2f3255f2a98ece707c1b8bc3ce}} 
+\index{Filter@{Filter}!get\_corrected\_img@{get\_corrected\_img}}
+\index{get\_corrected\_img@{get\_corrected\_img}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{get\_corrected\_img()}{get\_corrected\_img()}}
+{\footnotesize\ttfamily unsigned char $\ast$ Filter\+::get\+\_\+corrected\+\_\+img (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns a pointer to the filtered image data. 
+
+This function returns a pointer to the filtered image data. The data is stored as an array of unsigned char values.
+
+\begin{DoxyReturn}{Returns}
+A pointer to the filtered image data. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_filter_af19e15994735dd0fe67a73856f183353}\label{class_filter_af19e15994735dd0fe67a73856f183353}} 
+\index{Filter@{Filter}!median\_blur@{median\_blur}}
+\index{median\_blur@{median\_blur}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{median\_blur()}{median\_blur()}}
+{\footnotesize\ttfamily void Filter\+::median\+\_\+blur (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies a median blur to the input image. 
+
+This function uses a square kernel to apply a meidan blur to the input image. The \mbox{\hyperlink{class_filter}{Filter}} class instantiation includes the kernel size. The appearance of the final image will be smoother, with reduced noise and preserved edges. \mbox{\Hypertarget{class_filter_a1a0f1094e2e376f0c8608554fb9c6ecb}\label{class_filter_a1a0f1094e2e376f0c8608554fb9c6ecb}} 
+\index{Filter@{Filter}!median\_blur\_3d@{median\_blur\_3d}}
+\index{median\_blur\_3d@{median\_blur\_3d}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{median\_blur\_3d()}{median\_blur\_3d()}}
+{\footnotesize\ttfamily void Filter\+::median\+\_\+blur\+\_\+3d (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Apply median blur filter on 3D image data for each channel
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the image data array \\
+\hline
+{\em w} & Width of the image \\
+\hline
+{\em h} & Height of the image \\
+\hline
+{\em d} & Depth of the image \\
+\hline
+{\em c} & Number of channels in the image \\
+\hline
+{\em kernel\+\_\+size} & Size of the kernel used for the median filter. Must be odd. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filter_a444aaa6b6161604895a1c2358bb3fd1a}\label{class_filter_a444aaa6b6161604895a1c2358bb3fd1a}} 
+\index{Filter@{Filter}!Prewitt@{Prewitt}}
+\index{Prewitt@{Prewitt}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{Prewitt()}{Prewitt()}}
+{\footnotesize\ttfamily void Filter\+::\+Prewitt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies the Prewitt edge detection filter to the image. 
+
+This function utilizes the Prewitt operator to determine the gradient magnitude for each pixel and applies the Prewitt edge detection filter. The operator is a pair of 3x3 convolution kernels, for the X and Y direction each. The resulting image emphasizes the edges within the input image. \mbox{\Hypertarget{class_filter_a35c2380eceea7cf32b0a8be0de488d50}\label{class_filter_a35c2380eceea7cf32b0a8be0de488d50}} 
+\index{Filter@{Filter}!SaveImg@{SaveImg}}
+\index{SaveImg@{SaveImg}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{SaveImg()}{SaveImg()}}
+{\footnotesize\ttfamily void Filter\+::\+Save\+Img (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Saves the filtered image to a file. 
+
+This function saves the filtered image to a file in PNG format. The file is saved at the specified path.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s\+\_\+path} & The path where the filtered image should be saved. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filter_ad4f42a65ca1d0eaabf2ac55939a6c18b}\label{class_filter_ad4f42a65ca1d0eaabf2ac55939a6c18b}} 
+\index{Filter@{Filter}!SaveImgFolder@{SaveImgFolder}}
+\index{SaveImgFolder@{SaveImgFolder}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{SaveImgFolder()}{SaveImgFolder()}}
+{\footnotesize\ttfamily void Filter\+::\+Save\+Img\+Folder (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Saves the corrected image to a folder. 
+
+This function saves the corrected image to a folder in PNG format. The folder is saved at the specified path.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s\+\_\+path} & The path to the folder where the images will be saved. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filter_a6b59395ba17e0d47696ee60cf7f67bb3}\label{class_filter_a6b59395ba17e0d47696ee60cf7f67bb3}} 
+\index{Filter@{Filter}!Sobel@{Sobel}}
+\index{Sobel@{Sobel}!Filter@{Filter}}
+\doxysubsubsection{\texorpdfstring{Sobel()}{Sobel()}}
+{\footnotesize\ttfamily void Filter\+::\+Sobel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Applies the Sobel edge detection filter to the image. 
+
+This function utilizes the Sobel operator to determine the gradient magnitude for each pixel and applies the Sobel edge detection filter. The operator is a pair of 3x3 convolution kernels, each for the X and Y direction. The resulting image emphasizes the edges within the input image. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_filter_8h}{Filter.\+h}}\item 
+\mbox{\hyperlink{_filter_8cpp}{Filter.\+cpp}}\end{DoxyCompactItemize}
