@@ -18,7 +18,7 @@ STB Image for reading and writing image files.
 # Usage
 To use the library, you can include the necessary header files in your code and link against the library. Here's an example of how you could use the Filter, Image, Projection, Volume, and Slicing classes to process 2D or 3D images in a user-defined way.
 
-## Image & Filter
+### Image & Filter
 Create an instance of image: `Image image(image_path);`
 
 Create an instance of filter: `Filter black_white(image, kernel_size, sigma)`
@@ -27,7 +27,7 @@ Apply color correction to images like: `black_white.ApplyGrayScale();`
 
 Apply 3d filters to images like: `black_white.median_blur_3d();`
 
-## 3D Volume, Slice, Projection
+### 3D Volume, Slice, Projection
 **Names of 3D images must be in format of image_name0000.png.**
 
 Create an instance of volume: `Volume* volume = new Volume();`
@@ -36,7 +36,7 @@ Create an instance of projection: `Projection proj(volume);`
 
 Create an instance of slice(named ThreeDee in this library): `ThreeDee slice;`
 
-## User interface
+### User interface
 Create a instance of userInput: `UserInput user_funcs;`
 
 Take in user_paths and save_paths:
