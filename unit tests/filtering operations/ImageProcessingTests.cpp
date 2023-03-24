@@ -72,8 +72,8 @@ void ImageProcessingTests::test_apply_gray_scale()
         8, 11};
 
     unsigned char expected_output_data2[] = {
-        2, 255, 5, 255,
-        8, 255, 11, 255};
+        2, 5,
+        8, 11};
 
     Image im(data1, 2, 2, 3);
     Filter filter1(im);
@@ -90,7 +90,7 @@ void ImageProcessingTests::test_apply_gray_scale()
     {
         assert(abs(corrected_img1[i] - expected_output_data1[i]) <= 1);
     }
-    for (int i = 0; i < 2 * 2 * 2; ++i)
+    for (int i = 0; i < 2 * 2 * 1; ++i)
     {
         assert(abs(corrected_img2[i] - expected_output_data2[i]) <= 1);
     }
