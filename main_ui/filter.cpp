@@ -8,7 +8,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-#include "Filter.h"
+#include "filter.h"
 #include "Image.h"
 
 using namespace std;
@@ -25,7 +25,8 @@ using namespace std;
  * @param sigma The standard deviation of the Gaussian distribution used in the Gaussian blur filter.
  * @param depth depth Integer representing the depth of the image (number of layers or slices) for 3D image processing.
  */
-Filter::Filter(Image& image, int kernel_size, float sigma, int depth) : image(image), kernel_size(kernel_size), sigma(sigma), depth(depth) {
+Filter::Filter(Image& image, int kernel_size, float sigma, int depth) : image(image), kernel_size(kernel_size), sigma(sigma), depth(depth)
+{
     this->width = image.get_width();
     this->height = image.get_height();
     this->channels = image.get_channels();
@@ -38,32 +39,46 @@ Filter::Filter(Image& image, int kernel_size, float sigma, int depth) : image(im
  *
  * This destructor releases the memory allocated for the corrected_img buffer.
  */
-Filter::~Filter() {
+Filter::~Filter()
+{
     delete[] corrected_img;
 }
 
-void Filter::ApplyGrayScale() {
+/**
+ * @brief Applies grayscale to an image.
+ *
+ * Calculates the average of each RGB value within the pixel and stores it as
+ * an unsigned 8-bit integer in the output pixel. If the image has an alpha channel,
+ * it stores the alpha channel in the second channel of the grayscale image.
+ */
+void Filter::ApplyGrayScale()
+{
     unsigned char* img_data = image.data;
+    // Set the number of channels in the grayscale image.
     int gray_channels = (channels == 4) ? 2 : 1;
     corrected_img = new unsigned char[width * height * gray_channels];
 
     for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += gray_channels)
     {
-        // calculate the average of each RGB value within the pixel) - thats why input_pixel(+0) + (inputpixel + 1) etc...
-        // cast this to unsigned 8 bit integer
-        // this ensures pixel value is represeneted by exactly one byte (standard)
+        // Calculate the average of each RGB value within the pixel and cast value to an unsigned 8-bit integer
+        // to ensure the pixel value is represented by exactly one byte.
         *output_pixel = static_cast<uint8_t>((*input_pixel + *(input_pixel + 1) + *(input_pixel + 2)) / 3.0);
 
-        //This will store the alpha channel in the second channel of the grayscale image
-        if (channels == 4) {
+        // Store the alpha channel in the second channel of the grayscale image
+        if (channels == 4)
+        {
             *(output_pixel + 1) = *(input_pixel + 3);
         }
     }
     channels = gray_channels;
 }
 
-
-void Filter::AutoColourBalance() {
+/**
+ * @brief Balances the color of the image by scaling each color channel by
+ * the ratio of the maximum intensity to the average intensity of that channel.
+ */
+void Filter::AutoColourBalance()
+{
     unsigned char* img_data = image.data;
     size_t pixel_total = width * height;
     corrected_img = new unsigned char[width * height * channels];
@@ -72,30 +87,45 @@ void Filter::AutoColourBalance() {
     int green_total = 0;
     int blue_total = 0;
 
-    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
+    // Calculate the total intensity of each channel
+    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels)
+    {
         red_total += *input_pixel;
         green_total += *(input_pixel + 1);
         blue_total += *(input_pixel + 2);
     }
 
+    // Calculate the average intensity of each channel
     vector<double> inten_avg = { static_cast<double>(red_total) / pixel_total,
-                              static_cast<double>(green_total) / pixel_total,
-                              static_cast<double>(blue_total) / pixel_total };
+                                static_cast<double>(green_total) / pixel_total,
+                                static_cast<double>(blue_total) / pixel_total };
 
+    // Find the maximum intensity among all channels
     auto max_intensity = *max_element(begin(inten_avg), end(inten_avg));
+
+    // Calculate the scale factor for each channel
     double red_scale = max_intensity / inten_avg[0];
     double green_scale = max_intensity / inten_avg[1];
     double blue_scale = max_intensity / inten_avg[2];
 
-    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
-
+    // Scale each pixel in the image and store the result in corrected_img
+    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels)
+    {
         *output_pixel = std::min((*input_pixel * red_scale), 255.0);
         *(output_pixel + 1) = std::min((*(input_pixel + 1) * green_scale), 255.0);
         *(output_pixel + 2) = std::min((*(input_pixel + 2) * blue_scale), 255.0);
     }
 }
 
-void Filter::Brightness(int brightness) {
+/**
+ * @brief Adjusts brightness of the image by scaling the intensity of each color
+ * channel by the ratio of the desired brightness to the average intensity of that channel.
+ *
+ * @param brightness The desired brightness level, as an integer between 0 and 255.
+ * @return None
+ */
+void Filter::Brightness(int brightness)
+{
     unsigned char* img_data = image.data;
     size_t pixel_total = width * height;
     corrected_img = new unsigned char[width * height * channels];
@@ -104,28 +134,31 @@ void Filter::Brightness(int brightness) {
     int green_total = 0;
     int blue_total = 0;
 
-    //total intensity for each channel
-    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels) {
-
-        red_total += *input_pixel; // not sure if its ordered like this for every image type
+    // Calculate the total intensity for each color channel
+    for (unsigned char* input_pixel = img_data; input_pixel != img_data + img_size; input_pixel += channels)
+    {
+        red_total += *input_pixel;
         green_total += *(input_pixel + 1);
         blue_total += *(input_pixel + 2);
     }
 
+    // Calculate the average intensity for each color channel
     double red_avg = red_total / (double)pixel_total;
     double green_avg = green_total / (double)pixel_total;
     double blue_avg = blue_total / (double)pixel_total;
 
+    // Calculate the scaling factor for each color channel based on the desired brightness level
     double red_scale = brightness / red_avg;
     double green_scale = brightness / green_avg;
     double blue_scale = brightness / blue_avg;
 
-    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels) {
+    // Scale the intensity of each color channel for each pixel in the image
+    for (unsigned char* input_pixel = img_data, *output_pixel = corrected_img; input_pixel != img_data + img_size; input_pixel += channels, output_pixel += channels)
+    {
         *output_pixel = std::max(0.0, std::min(static_cast<int>(*input_pixel) * red_scale, 255.0));
         *(output_pixel + 1) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 1)) * green_scale, 255.0));
         *(output_pixel + 2) = std::max(0.0, std::min(static_cast<int>(*(input_pixel + 2)) * blue_scale, 255.0));
     }
-
 }
 
 /**
@@ -136,15 +169,18 @@ void Filter::Brightness(int brightness) {
  * The operator is a pair of 3x3 convolution kernels, each for the X
  * and Y direction. The resulting image emphasizes the edges within the input image.
  */
-void Filter::Sobel() {
+void Filter::Sobel()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height];
     unsigned char* img_data = image.data;
     int gx, gy;
 
     // Iterate through the image pixels
-    for (int y = 1; y < height - 1; y++) {
-        for (int x = 1; x < width - 1; x++) {
+    for (int y = 1; y < height - 1; y++)
+    {
+        for (int x = 1; x < width - 1; x++)
+        {
             // Calculate the convolutions with the Sobel filter in X direction
             gx = -img_data[(y - 1) * width + (x - 1)] - 2 * img_data[y * width + (x - 1)] - img_data[(y + 1) * width + (x - 1)] +
                 img_data[(y - 1) * width + (x + 1)] + 2 * img_data[y * width + (x + 1)] + img_data[(y + 1) * width + (x + 1)];
@@ -170,7 +206,8 @@ void Filter::Sobel() {
  * The operator is a pair of 3x3 convolution kernels, for the X
  * and Y direction each. The resulting image emphasizes the edges within the input image.
  */
-void Filter::Prewitt() {
+void Filter::Prewitt()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height * channels];
     unsigned char* img_data = image.data;
@@ -185,24 +222,30 @@ void Filter::Prewitt() {
     int* gy = new int[width * height];
 
     // Calculate X gradient
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j++) {
+    for (int i = 1; i < height - 1; i++)
+    {
+        for (int j = 1; j < width - 1; j++)
+        {
             int val = img_data[width * (i + 1) + j] + img_data[width * (i + 1) + j - 1] + img_data[width * (i + 1) + j + 1] -
                 (img_data[width * (i - 1) + j] + img_data[width * (i - 1) + j - 1] + img_data[width * (i - 1) + j + 1]);
             gx[width * i + j] = min(max(val, 0), 255);
         }
     }
     // Calculate Y gradient
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j++) {
+    for (int i = 1; i < height - 1; i++)
+    {
+        for (int j = 1; j < width - 1; j++)
+        {
             int val = img_data[width * (i + 1) + j] + img_data[width * (i + 1) + j - 1] + img_data[width * (i + 1) + j + 1] -
                 (img_data[width * (i - 1) + j] + img_data[width * (i - 1) + j - 1] + img_data[width * (i - 1) + j + 1]);
             gy[width * i + j] = min(max(val, 0), 255);
         }
     }
-    // Compute the value of image using X gradient and Y gradient 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    // Compute the value of image using X gradient and Y gradient
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
             corrected_img[width * i + j] = sqrt(gx[width * i + j] * gx[width * i + j] + gy[width * i + j] * gy[width * i + j]);
         }
     }
@@ -217,7 +260,8 @@ void Filter::Prewitt() {
  * of the specified size to apply a box blur filter to the image.
  * The filter smooths the image and reduces noise.
  */
-void Filter::box_blur() {
+void Filter::box_blur()
+{
     // Access the input image data
     unsigned char* img_data = image.data;
     corrected_img = new unsigned char[width * height * channels];
@@ -227,22 +271,28 @@ void Filter::box_blur() {
     std::vector<unsigned char> kernel_values(kernel_size * kernel_size);
 
     // Iterate through each color channel
-    for (int channel = 0; channel < channels; ++channel) {
+    for (int channel = 0; channel < channels; ++channel)
+    {
         // Create a temporary copy of the image data for the current channel
         std::vector<unsigned char> temp_data(img_data, img_data + width * height * channels);
 
         // Iterate through the image pixels
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
                 // Extract the pixel values within the kernel for the current channel
                 int index = 0;
                 int sum = 0;
-                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+                {
+                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+                    {
                         int nx = x + kx;
                         int ny = y + ky;
                         // Check if the neighbor pixel is within the image boundaries
-                        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                        if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+                        {
                             unsigned char pixel_value = temp_data[(ny * width + nx) * channels + channel];
                             kernel_values[index++] = pixel_value;
                             sum += pixel_value;
@@ -257,7 +307,6 @@ void Filter::box_blur() {
     }
 }
 
-
 /**
  * @brief Applies Gaussian blur to the input image.
  *
@@ -265,7 +314,8 @@ void Filter::box_blur() {
  * The Filter class instantiation includes the kernel size and standard deviation/sigma.
  * The appearance of the final image will be smoother, with less noise and detail.
  */
-void Filter::gaussian_blur() {
+void Filter::gaussian_blur()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height * channels];
     // Access the input image data
@@ -279,8 +329,10 @@ void Filter::gaussian_blur() {
 
     // Calculate the values of the Gaussian kernel
     float sum = 0.0f;
-    for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-        for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+    for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+    {
+        for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+        {
             float value = exp(-(kx * kx + ky * ky) / (2.0f * sigma * sigma));
             kernel_values[(ky + kernel_radius) * kernel_size + (kx + kernel_radius)] = value;
             sum += value;
@@ -288,25 +340,32 @@ void Filter::gaussian_blur() {
     }
 
     // Normalize the kernel
-    for (int i = 0; i < kernel_size * kernel_size; ++i) {
+    for (int i = 0; i < kernel_size * kernel_size; ++i)
+    {
         kernel_values[i] /= sum;
     }
 
     // Iterate through the image channels
-    for (int channel = 0; channel < channels; ++channel) {
+    for (int channel = 0; channel < channels; ++channel)
+    {
         // Create a temporary copy of the image data for the current channel
         std::vector<unsigned char> temp_data(img_data, img_data + width * height * channels);
 
         // Iterate through the image pixels
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
                 // Apply the Gaussian kernel to the pixel values within the kernel for the current channel
                 float sum = 0.0f;
-                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+                {
+                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+                    {
                         int nx = x + kx;
                         int ny = y + ky;
-                        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                        if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+                        {
                             unsigned char pixel_value = temp_data[(ny * width + nx) * channels + channel];
                             float kernel_value = kernel_values[(ky + kernel_radius) * kernel_size + (kx + kernel_radius)];
                             sum += pixel_value * kernel_value;
@@ -328,7 +387,8 @@ void Filter::gaussian_blur() {
  * The Filter class instantiation includes the kernel size.
  * The appearance of the final image will be smoother, with reduced noise and preserved edges.
  */
-void Filter::median_blur() {
+void Filter::median_blur()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height * channels];
     // Access the input image data
@@ -341,25 +401,34 @@ void Filter::median_blur() {
     std::vector<unsigned char> kernel_values(kernel_size * kernel_size);
 
     // Iterate through the image channels
-    for (int channel = 0; channel < channels; ++channel) {
+    for (int channel = 0; channel < channels; ++channel)
+    {
         // Iterate through the image pixels
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
                 // Extract the pixel values within the kernel for the current channel
                 int index = 0;
-                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+                for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+                {
+                    for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+                    {
                         int nx = x + kx;
                         int ny = y + ky;
-                        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                        if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+                        {
                             kernel_values[index++] = img_data[(ny * width + nx) * channels + channel];
                         }
                     }
                 }
                 // Sort the values for the current channel
-                for (int i = 0; i < kernel_size * kernel_size - 1; ++i) {
-                    for (int j = 0; j < kernel_size * kernel_size - i - 1; ++j) {
-                        if (kernel_values[j] > kernel_values[j + 1]) {
+                for (int i = 0; i < kernel_size * kernel_size - 1; ++i)
+                {
+                    for (int j = 0; j < kernel_size * kernel_size - i - 1; ++j)
+                    {
+                        if (kernel_values[j] > kernel_values[j + 1])
+                        {
                             float temp = kernel_values[j];
                             kernel_values[j] = kernel_values[j + 1];
                             kernel_values[j + 1] = temp;
@@ -384,57 +453,75 @@ void Filter::median_blur() {
  * @param c Number of channels in the image
  * @param kernel_size Size of the kernel used for the median filter. Must be odd.
  */
-void Filter::median_blur_3d() {
+void Filter::median_blur_3d()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height * depth * channels];
-
     // Access the input image data
     unsigned char* img_data = image.data;
+
     const int kernel_radius = (kernel_size - 1) / 2;
-    // const int kernel_size_sq = kernel_size * kernel_size * kernel_size;
     std::vector<unsigned char> kernel_values(kernel_size * kernel_size * kernel_size);
 
-    for (int channel = 0; channel < channels; ++channel) {
-        // Create a temporary copy of the image data for the current channel
-        std::vector<unsigned char> temp_data(img_data, img_data + width * height * depth * channels);
-
-        for (int z = 0; z < depth; ++z) {
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width; ++x) {
+    for (int channel = 0; channel < channels; ++channel)
+    {
+        for (int z = 0; z < depth; ++z)
+        {
+            for (int y = 0; y < height; ++y)
+            {
+                for (int x = 0; x < width; ++x)
+                {
                     // Get the median pixel value within the kernel for the current channel
                     std::vector<unsigned char> pixel_values;
-                    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz) {
-                        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-                            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+                    int index = 0;
+                    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz)
+                    {
+                        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+                        {
+                            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+                            {
                                 int nx = x + kx;
                                 int ny = y + ky;
                                 int nz = z + kz;
-                                if (nx >= 0 && nx < width && ny >= 0 && ny < height && nz >= 0 && nz < depth) {
-                                    unsigned char pixel_value = temp_data[((nz * height + ny) * width + nx) * channels + channel];
-                                    pixel_values.push_back(pixel_value);
+                                if (nx >= 0 && nx < width && ny >= 0 && ny < height && nz >= 0 && nz < depth)
+                                {
+                                    kernel_values[index++] = img_data[((nz * height + ny) * width + nx) * channels + channel];
                                 }
                             }
                         }
                     }
                     // Sort the values for the current channel
-                    for (int i = 0; i < kernel_size * kernel_size - 1; ++i) {
-                        for (int j = 0; j < kernel_size * kernel_size - i - 1; ++j) {
-                            if (pixel_values[j] > pixel_values[j + 1]) {
-                                float temp = pixel_values[j];
-                                pixel_values[j] = pixel_values[j + 1];
-                                pixel_values[j + 1] = temp;
+                    for (int i = 0; i < kernel_values.size() - 1; ++i)
+                    {
+                        for (int j = 0; j < kernel_values.size() - i - 1; ++j)
+                        {
+                            if (kernel_values[j] > kernel_values[j + 1])
+                            {
+                                float temp = kernel_values[j];
+                                kernel_values[j] = kernel_values[j + 1];
+                                kernel_values[j + 1] = temp;
                             }
                         }
                     }
-                    unsigned char median_value = pixel_values[pixel_values.size() / 2];
-
                     // Set the pixel value at the center of the kernel to the median value for the current channel
-                    corrected_img[((z * height + y) * width + x) * channels + channel] = median_value;
+                    corrected_img[((z * height + y) * width + x) * channels + channel] = kernel_values[kernel_values.size() / 2];
                 }
             }
         }
     }
 }
+
+
+//  * Apply median blur filter on 3D image data for each channel
+//  *
+//  * @param data Pointer to the image data array
+//  * @param w Width of the image
+//  * @param h Height of the image
+//  * @param d Depth of the image
+//  * @param c Number of channels in the image
+//  * @param kernel_size Size of the kernel used for the median filter. Must be odd.
+//  */
+
 
 /**
  * Applies a 3D Gaussian blur filter to the input image data for each channel.
@@ -449,7 +536,8 @@ void Filter::median_blur_3d() {
  * @param kernel_size Size of the Gaussian kernel in each dimension (e.g., 3 for a 3x3x3 kernel).
  * @param sigma Standard deviation of the Gaussian kernel in each dimension.
  */
-void Filter::gaussian_blur_3d() {
+void Filter::gaussian_blur_3d()
+{
     // Allocate memory for the corrected image
     corrected_img = new unsigned char[width * height * depth * channels];
     // Access the input image data
@@ -460,9 +548,12 @@ void Filter::gaussian_blur_3d() {
 
     // Calculate the values of the kernel
     float sum = 0.0f;
-    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz) {
-        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz)
+    {
+        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+        {
+            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+            {
                 float value = exp(-(kx * kx + ky * ky + kz * kz) / (2.0f * sigma * sigma));
                 kernel_values[((kz + kernel_radius) * kernel_size + (ky + kernel_radius)) * kernel_size + (kx + kernel_radius)] = value;
                 sum += value;
@@ -471,26 +562,35 @@ void Filter::gaussian_blur_3d() {
     }
 
     // Normalize the kernel
-    for (int i = 0; i < kernel_size_tr; ++i) {
+    for (int i = 0; i < kernel_size_tr; ++i)
+    {
         kernel_values[i] /= sum;
     }
 
-    for (int channel = 0; channel < channels; ++channel) {
+    for (int channel = 0; channel < channels; ++channel)
+    {
         // Create a temporary copy of the image data for the current channel
         std::vector<unsigned char> temp_data(img_data, img_data + width * height * depth * channels);
 
-        for (int z = 0; z < depth; ++z) {
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width; ++x) {
+        for (int z = 0; z < depth; ++z)
+        {
+            for (int y = 0; y < height; ++y)
+            {
+                for (int x = 0; x < width; ++x)
+                {
                     // Apply the kernel to the pixel values within the kernel for the current channel
                     float sum = 0.0f;
-                    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz) {
-                        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky) {
-                            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx) {
+                    for (int kz = -kernel_radius; kz <= kernel_radius; ++kz)
+                    {
+                        for (int ky = -kernel_radius; ky <= kernel_radius; ++ky)
+                        {
+                            for (int kx = -kernel_radius; kx <= kernel_radius; ++kx)
+                            {
                                 int nx = x + kx;
                                 int ny = y + ky;
                                 int nz = z + kz;
-                                if (nx >= 0 && nx < width && ny >= 0 && ny < height && nz >= 0 && nz < depth) {
+                                if (nx >= 0 && nx < width && ny >= 0 && ny < height && nz >= 0 && nz < depth)
+                                {
                                     unsigned char pixel_value = temp_data[((nz * height + ny) * width + nx) * channels + channel];
                                     float kernel_value = kernel_values[((kz + kernel_radius) * kernel_size + (ky + kernel_radius)) * kernel_size + (kx + kernel_radius)];
                                     sum += pixel_value * kernel_value;
@@ -507,7 +607,6 @@ void Filter::gaussian_blur_3d() {
     }
 }
 
-
 /**
  * @brief Saves the filtered image to a file.
  *
@@ -516,16 +615,35 @@ void Filter::gaussian_blur_3d() {
  *
  * @param s_path The path where the filtered image should be saved.
  */
-void Filter::SaveImg(const std::string& s_path) {
+void Filter::SaveImg(const std::string& s_path)
+{
     stbi_write_png(s_path.c_str(), width, height, channels, corrected_img, width * channels);
     std::cout << "Success, your Image has been saved";
 }
 
-void Filter::SaveImgFolder(const std::string& s_path) {
-    std::cout << "Hello I am here";
-    for (int i = 0; i < depth; i++) {
-        std::cout << "hello I am at breaking point";
-        std::string filename = "output_" + std::to_string(i + 1) + ".png";
+// void Filter::SaveImgFolder(const std::string& s_path, unsigned char* corrected_img) {
+//     for (int i = 0; i < depth; i++)
+//         std::string filename = "output_" + std::to_string(i + 1) + ".png";
+//         std::cout << filename << std::endl;
+//                             for (int i = 0; i < 50; ++i) {
+//     std::cout << static_cast<int>(corrected_img[i]) << " ";
+//     if ((i + 1) % 3 == 0) {
+//         std::cout << std::endl;
+//     }
+//         stbi_write_png("/Users/hz822/advanced-programming-group-kruskal-main/Output.png", width, height, channels, corrected_img, 0);
+//     }
+//     std::cout << "Success, your Images have been saved into the folder";
+// }
+// }
+void Filter::SaveImgFolder(const std::string& s_path)
+{
+    for (int i = 0; i < depth; i++)
+    {
+        // std::string output_folder = "/Users/hz822/advanced-programming-group-kruskal-main/Output/fracture/";
+        // std::string filename = output_folder + "output_" + std::to_string(i+1) + ".png";
+        // filename = output_folder + std::string(4 - std::to_string(i).length(), '0') + std::to_string(i) + ".png";
+        // stbi_write_png(filename.c_str(), width, height, channels, &corrected_img[i * width * height * channels], 0);
+        std::string filename = s_path + std::string(4 - std::to_string(i).length(), '0') + std::to_string(i) + ".png";
         std::cout << filename << std::endl;
         stbi_write_png(filename.c_str(), width, height, channels, &corrected_img[i * width * height * channels], 0);
     }
@@ -540,6 +658,7 @@ void Filter::SaveImgFolder(const std::string& s_path) {
  *
  * @return A pointer to the filtered image data.
  */
-unsigned char* Filter::get_corrected_img() const {
+unsigned char* Filter::get_corrected_img() const
+{
     return corrected_img;
 }

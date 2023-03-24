@@ -8,6 +8,7 @@
 #include "filter.h"
 #include "UserInput.h"
 #include "3d_ops-1.h"
+#include "Projections.h"
 #include <iostream>
 #include <string>
 #include <functional>
@@ -107,17 +108,14 @@ int main() {
         int h = image.get_height();
 
         unsigned char* data = volume2->trans_volume(w, h, 1, depth);
-        cout << "Depth after conversion: " << volume2->get_size() << endl;
-        cout << "here - 1" << endl;
+        //cout << "Depth after conversion: " << volume2->get_size() << endl;
+        depth = volume2->get_size();
         Image trans_img(data, w, h, 1);
 
-        cout << "Here - 2" << endl;
         // Our error is here
         cout << "Kernel Size: " << kernel_size << endl;
         cout << "Sigma Size: " << sigma << endl;
-        Filter black_white(trans_img, kernel_size, sigma);
-
-        cout << "Here -3" << endl;
+        Filter black_white(trans_img, kernel_size, sigma, depth);
 
         unordered_map<int, std::function<void()>> overview_3d = {
                         {41, [&]() { black_white.median_blur_3d(); }},
@@ -126,16 +124,16 @@ int main() {
         cout << "Here -4" << endl;
 
         if (overview_3d.find(filter_key) != overview_3d.end()) {
-
+            cout << "Am I getting past this stupid if statement" << endl;
             overview_3d[filter_key]();  // Call the method
             cout << "Here -5" << endl;
-            std::cout << "I am breaking in main";
+           // unsigned char* corrected_img = black_white.get_corrected_img();
             black_white.SaveImgFolder(user_funcs.save_folder_path.c_str());
         }
         else {
 
-            char choice = user_funcs.xyChoice();
-            if (choice == 'x') {
+            user_funcs.xyChoice();
+            if (user_funcs.choice == 'x') {
                 int y = user_funcs.XSlice_dim(w);
                 std::cout << y << endl;
                 unsigned char* xz_slice;
@@ -143,16 +141,18 @@ int main() {
                 std::cout << "Please specify the path to the XZ Slice" << std::endl;
                 user_funcs.UserSavePathForSlice();
                 std::string full_save_path = user_funcs.save_folder_path + user_funcs.slice_filename;
-                int success_xz = stbi_write_png(full_save_path.c_str(), w, depth, 1, xz_slice, 0);
+                cout << full_save_path << endl;
+                stbi_write_png(full_save_path.c_str(), w, depth, 1, xz_slice, 0);
             }
-            else if (choice == 'y') {
+            else if (user_funcs.choice == 'y') {
                 int x = user_funcs.YSlice_dim(h);
                 unsigned char* yz_slice;
                 yz_slice = slice.Get_YZ_slice(volume2, x);
                 std::cout << "Please specify the path to the YZ Slice" << std::endl;
                 user_funcs.UserSavePathForSlice();
                 std::string full_save_path = user_funcs.save_folder_path + user_funcs.slice_filename;
-                int success_xz = stbi_write_png(full_save_path.c_str(), w, depth, 1, yz_slice, 0);
+                cout << full_save_path << endl;
+                stbi_write_png(full_save_path.c_str(), depth, h, 1, yz_slice, 0);
             }
             else {
                 int y = user_funcs.XSlice_dim(w);
@@ -165,17 +165,45 @@ int main() {
                 std::cout << "Please specify the path to the XZ Slice" << std::endl;
                 user_funcs.UserSavePathForSlice();
                 std::string full_save_path_xz = user_funcs.save_folder_path + user_funcs.slice_filename;
-                int success_xz = stbi_write_png(full_save_path_xz.c_str(), w, depth, 1, xz_slice, 0);
+                stbi_write_png(full_save_path_xz.c_str(), w, depth, 1, xz_slice, 0);
 
                 std::cout << "Please specify the path to the YZ Slice" << std::endl;
                 user_funcs.UserSavePathForSlice();
                 std::string full_save_path_yz = user_funcs.save_folder_path + user_funcs.slice_filename;
-                int success_yz = stbi_write_png(full_save_path_yz.c_str(), w, depth, 1, yz_slice, 0);
+                stbi_write_png(full_save_path_yz.c_str(), depth, h, 1, yz_slice, 0);
 
             }
             
            
             
+        }
+
+    }
+    else if (filter_key > 60) {
+
+        Volume* volume2 = new Volume();
+        user_funcs.FolderPathRequest();
+        
+
+        volume2->addImageFolder(user_funcs.folder_path.c_str());
+        int depth = volume2->get_size();
+        /*Image image = volume2->getImage(0);
+        int depth = volume2->get_size();
+        std::cout << "this is depth:" << depth;
+        int w = image.get_width();
+        int h = image.get_height();*/
+
+        user_funcs.UserSavePath();
+
+        Projection proj(volume2);
+
+        unordered_map<int, const char*> overview_proj = { {61, "max"}, {62, "min"}, {63, "mean"}, {64, "median"} };
+        
+        if (overview_proj.find(filter_key) != overview_proj.end()) {
+            cout << overview_proj[filter_key] << endl;
+            proj.IP("mean", user_funcs.save_path.c_str(), 0, depth, "test");
+            //proj.IP(overview_proj[filter_key].c_str(), user_funcs.save_path.c_str(), 0, depth, "test");
+            std::cout << "Finished" << std::endl;
         }
 
     }
@@ -188,4 +216,4 @@ int main() {
     
 
     return 0;
-}
+};

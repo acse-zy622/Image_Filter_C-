@@ -23,6 +23,7 @@ public:
 
     unsigned char* trans_volume(int w, int h, int c, int d);
 
+
 private:
     std::vector<Image> images;
 };

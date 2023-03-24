@@ -51,17 +51,16 @@ public:
     // Returns a pointer to the filtered image data.
     unsigned char* get_corrected_img() const;
 
-    
+
 
 private:
     Image& image;                 // Reference to the input image
     int kernel_size;              // Size of the kernel used for blur operations
     float sigma;                  // Sigma value used for Gaussian blur
-    int depth;
+    int depth;                    // Depth of the input image (for 3D image operations)
     int width;                    // Width of the input image
     int height;                   // Height of the input image
     int channels;                 // Number of channels in the input image (3 for RGB and 1 for grayscale)
-    size_t img_size;              // Total size of the image data (width * height * channels)
-                        // Depth of the input image (for 3D image operations)
+    size_t img_size;              // Total size of the image data (width * height * channels)                 
     unsigned char* corrected_img; // Pointer to the corrected image data after applying filters
 };

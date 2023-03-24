@@ -16,6 +16,7 @@ public:
     string folder_path;
     string save_folder_path;
     string slice_filename;
+    char choice;
 
 
     void UserPathRequest() {
@@ -73,18 +74,18 @@ public:
         
 
         while (decider != true) {
-            cout << "Please specifiy the new files name: ";
-            cin >> slice_filename;
+            cout << "Please specify the new file name: ";
+            getline(cin, slice_filename);
 
             // check file extension
-            string extension = save_path.substr(slice_filename.find_last_of(".") + 1);
+            string extension = slice_filename.substr(slice_filename.find_last_of(".") + 1);
             if (extension != "bmp" && extension != "png" && extension != "jpg" && extension != "jpeg") {
                 cout << "Invalid file extension. Please save as .bmp, .png, .jpg, or .jpeg." << endl;
-                //decider = '\0';
+                decider = false;
             }
             else {
-                cout << "Invalid choice" << endl;
-                decider = '\0';
+                cout << "Valid choice" << endl;
+                decider = true;
             }
         }
     }
@@ -128,7 +129,8 @@ public:
         unordered_map<int, string> overview = { {11, "GrayScale"}, {12, "ColourCorrection"}, {13, "AutoBrightness"},
                                               {21, "BoxBlur"}, {22, "MedianBlur"}, {23, "GaussBlur"}, {31, "Sobel"},
                                               {32, "Prewitt"}, {41, "Median 3D Blur"}, {42, "Gaussian 3D Blur"},
-                                              {51, "3D Slicing"} };
+                                              {51, "3D Slicing"}, {61, "Max Projection"}, {62, "Min Projection"},
+                                              {63, "Mean Projection"}, {64, "Median Projection"} };
 
         while (selected != true){
             cout << "Hello! You have selected Quick Menu\n";
@@ -164,7 +166,8 @@ public:
         unordered_map<int, string> EdgeDetection = { {1, "Sobel"}, {2, "Prewitt"} };
         unordered_map<int, string> Blur_3d = { {1, "Median 3D Blur"}, {2, "Gaussian 3D Blur"} };
         unordered_map<int, string> Slicing = { {1, "3D Slicing"} };
-        vector<unordered_map<int, string>> all_filters = { ColourCorrect, Blur, EdgeDetection, Blur_3d, Slicing };
+        unordered_map<int, string> Project = { {1, "Max Projection"}, {2, "Min Projection"}, {3, "Min Projection"}, {4, "Min Projection"} };
+        vector<unordered_map<int, string>> all_filters = { ColourCorrect, Blur, EdgeDetection, Blur_3d, Slicing, Project};
 
 
 
@@ -286,26 +289,24 @@ public:
         return x_dim;
     }
 
-    char xyChoice() {
-
+    void xyChoice() {
         bool valid = false;
-        char choice;
 
-        while (valid != true) {
+        while (!valid) {
             cout << "\nPlease enter either 'x' or 'y' for XZ or YZ slice. For both enter 'b': ";
             cin >> choice;
-            cin.get(choice);
             if (cin.fail()) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "\nInvalid input. Please enter either 'x' for XZ slice, or 'y' for YZ slice.\n" << endl;
+                continue;
             }
-            if (!isalpha(choice)) {
-                valid = true;
-
+            choice = tolower(choice);
+            if (choice != 'x' && choice != 'y' && choice != 'b') {
+                cout << "\nInvalid input. Please enter either 'x' for XZ slice, 'y' for YZ slice, or 'b' for both.\n" << endl;
+                continue;
             }
+            valid = true;
         }
-
-        return choice;
     }
 };
