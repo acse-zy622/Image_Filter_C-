@@ -1,3 +1,17 @@
+/**
+ * @file Filter.cpp
+ * @brief Implementation of the Filter class.
+ *
+ * This file contains the implementation of the Filter class used to apply 2d and 3d filters to images.
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -606,7 +620,7 @@ void Filter::gaussian_blur_3d()
 void Filter::SaveImg(const std::string &s_path)
 {
     stbi_write_png(s_path.c_str(), width, height, channels, corrected_img, width * channels);
-    std::cout << "Success, your blurry Image has been saved";
+    std::cout << "Success, your filtered image has been saved";
 }
 
 /**
