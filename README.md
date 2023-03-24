@@ -46,13 +46,17 @@ Take in user_paths and save_paths:
 `user_funcs.UserSavePath();`
 
 # File list
+#### final version folder
 - Filter.cpp & Filter.h: the code for Filter class
 - Image.cpp & Image.h: the code for Image class
 - Volume.cpp & Volume.h: the code for Volume class
 - 3d_ops-1.cpp & 3d_ops-1.h: the code for Slicing class
 - Projections.cpp & Projections.h: the code for Projection class
 - UserInput.h: the code for user interface
+#### other file
 - Output folder: Output images
+- mac: executable file on MacOS
+- oriana_test.exe: executable file on Windows
 - Group Kruskal Report.doc: report
 - Unit tests: tests for filtering and projection
 - License
