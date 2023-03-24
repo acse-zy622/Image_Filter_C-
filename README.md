@@ -50,7 +50,7 @@ Take in user_paths and save_paths:
 - Filter.cpp & Filter.h: the code for Filter class
 - Image.cpp & Image.h: the code for Image class
 - Volume.cpp & Volume.h: the code for Volume class
-- 3d_ops-1.cpp & 3d_ops-1.h: the code for Slicing class
+- 3d_ops.cpp & 3d_ops.h: the code for Slicing class
 - Projections.cpp & Projections.h: the code for Projection class
 - UserInput.h: the code for user interface
 #### other file
