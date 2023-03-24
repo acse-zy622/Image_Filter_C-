@@ -1,3 +1,17 @@
+/**
+ * @file main.cpp
+ * @brief Main function for the image processing tests.
+ *
+ * This file contains the main function for the image processing tests, which runs the unit tests for the filtering functions.
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #include "ImageProcessingTests.h"
 #include <iostream>
 
@@ -6,7 +20,7 @@ int main() {
     ImageProcessingTests tests;
     bool all_tests_passed = true;
 
-    // helper lambda function to run tests and handle exceptions
+    // Helper lambda function to run tests and handle exceptions
     auto run_test = [&](const std::string& test_name, auto test_func) {
         try {
             test_func();

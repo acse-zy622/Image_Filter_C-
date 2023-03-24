@@ -1,3 +1,17 @@
+/**
+ * @file ImageProcessingTests.h
+ * @brief Header file for the ImageProcessingTests class.
+ *
+ * This file contains the declaration of the ImageProcessingTests class used to test the image processing functions.
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #pragma once
 
 #include "Filter.h"

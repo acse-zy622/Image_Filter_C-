@@ -1,3 +1,17 @@
+/**
+ * @file ImageProcessingTests.cpp
+ * @brief Unit tests for the image processing functions (2d and 3d)
+ *
+ * This file contains the unit tests for the image processing fucntions. 
+ *
+ * Group Members:
+ * - Hang Zhao (edsml-hz822)
+ * - Luwen Liang (edsml-ll2822)
+ * - Elliott Mcquire (acse-ecm22)
+ * - Zhuoran Yang (acse-zy622)
+ * - Qingyang Lu (acse-ql1522)
+ */
+
 #include "ImageProcessingTests.h"
 #include "Filter.h"
 #include "Image.h"
