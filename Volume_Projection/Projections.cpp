@@ -1,16 +1,63 @@
+/**
+
+* @file Projections.cpp
+
+* @brief Implementation of the Projection class.
+
+*
+
+* This file contains the implementation of the all 3D projections.
+
+*
+
+* Group Members:
+
+* - Hang Zhao (edsml-hz822)
+
+* - Luwen Liang (edsml-ll2822)
+
+* - Elliott Mcquire (acse-ecm22)
+
+* - Zhuoran Yang (acse-zy622)
+
+* - Qingyang Lu (acse-ql1522)
+
+*/
 #include "Projections.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
 #include <thread>
 #include <tuple>
 
-// Constructor for the `Projection` class, initializing the `volume` member variable with the provided `Volume` pointer.
+/**
+
+@brief Constructor for the Projection class, initializing the volume member variable with the provided Volume pointer.
+
+@param volume A pointer to a Volume object.
+*/
 Projection::Projection(const Volume* volume) : volume(volume) {}
 
-// Destructor for the `Projection` class, which does not have any specific resource deallocation.
+/**
+
+@brief Destructor for the Projection class, which does not have any specific resource deallocation.
+*/
 Projection::~Projection() {}
 
-// Defines the `IP` method for the `Projection` class, taking the compare function, output name, and min/max z values as parameters.
+/**
+
+
+@brief Defines the IP method for the Projection class, taking the compare function, output name, and min/max z values as parameters.
+
+@param compare_function A C-style string representing the type of projection operation to perform (max, min, mean, or median).
+
+@param output_name A C-style string representing the name of the output file to save the projection to.
+
+@param min_z An integer representing the minimum z-value of the thin slab to consider.
+
+@param max_z An integer representing the maximum z-value of the thin slab to consider.
+
+@param flag A std::string object that, when set to "test", tests the output against predetermined values rather than saving it to a file.
+*/
 void Projection::IP(const char* compare_function, const char* output_name, int min_z, int max_z, const std::string& flag) {
 
     // Retrieve the list of images from the volume
@@ -238,6 +285,8 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
                 }
             }
         };
+
+        // get your threads imformation
         size_t num_threads = std::thread::hardware_concurrency();
         size_t pixels_per_thread = pixel_locations.size() / num_threads;
 
@@ -288,19 +337,37 @@ void Projection::IP(const char* compare_function, const char* output_name, int m
     }
 }
 
-// Define the my_max function template to return the maximum of two input values
+/**
+    * @brief Returns the maximum of two input values.
+    * @tparam T The type of input values.
+    * @param a The first input value.
+    * @param b The second input value.
+    * @return The maximum of the two input values.
+    */
 template<typename T>
 T Projection::my_max(const T& a, const T& b) {
     return (a > b) ? a : b;
 }
 
-// Define the my_min function template to return the minimum of two input values
+/**
+ * @brief Returns the minimum of two input values.
+ * @tparam T The type of input values.
+ * @param a The first input value.
+ * @param b The second input value.
+ * @return The minimum of the two input values.
+ */
 template<typename T>
 T Projection::my_min(const T& a, const T& b) {
     return (a < b) ? a : b;
 }
 
-// Define the separation function to partition the input vector around a pivot for the quick sort algorithm
+/**
+ * @brief Partitions the input vector around a pivot for the quick sort algorithm.
+ * @param val The input vector to partition.
+ * @param l The index of the leftmost element of the vector to partition.
+ * @param h The index of the rightmost element of the vector to partition.
+ * @return The index of the pivot element.
+ */
 int Projection::separation(std::vector<unsigned char>& val, int l, int h) {
     unsigned char piv = val[h];
     int i = l - 1;
@@ -314,7 +381,12 @@ int Projection::separation(std::vector<unsigned char>& val, int l, int h) {
     return (i + 1);
 }
 
-// Define the quickSort function to sort the input vector with unsigned char using the quick sort algorithm
+/**
+   * @brief Sorts the input vector with unsigned char using the quick sort algorithm.
+   * @param val The input vector to sort.
+   * @param l The index of the leftmost element of the vector to sort.
+   * @param h The index of the rightmost element of the vector to sort.
+   */
 void Projection::quickSort(std::vector<unsigned char>& val, int l, int h) {
     if (l < h) {
         int piv = separation(val, l, h);

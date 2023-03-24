@@ -1,15 +1,51 @@
+/**
+
+* @file Volume.cpp
+
+* @brief Implementation of the Volume class.
+
+*
+
+* This file contains the implementation of Volume class.
+
+*
+
+* Group Members:
+
+* - Hang Zhao (edsml-hz822)
+
+* - Luwen Liang (edsml-ll2822)
+
+* - Elliott Mcquire (acse-ecm22)
+
+* - Zhuoran Yang (acse-zy622)
+
+* - Qingyang Lu (acse-ql1522)
+
+*/
 #include "Volume.h"
 
 
-// Default constructor for the Volume class
+/**
+
+Default constructor for the Volume class.
+*/
 Volume::Volume() {}
 
-// Adds images for unit testing.
+/**
+
+Adds an image for unit testing.
+@param[in] im The Image object to add.
+*/
 void Volume::addTestImage(Image& im) {
     images.push_back(im);
 };
 
-// Adds an image to the Volume by loading it from a file
+/**
+
+Adds an image to the Volume by loading it from a file.
+@param[in] filename The file path of the image.
+*/
 void Volume::addImage(const char* filename) {
     int w, h, c;
     unsigned char* data = stbi_load(filename, &w, &h, &c, 0);
@@ -21,7 +57,15 @@ void Volume::addImage(const char* filename) {
     images.push_back(img); 
 }
 
-// 1D array for 3d filter computation
+/**
+
+Returns a 1D array of image data for 3D filter computation.
+@param[in] w The width of the images in the Volume.
+@param[in] h The height of the images in the Volume.
+@param[in] c The number of channels in the images in the Volume.
+@param[in] d The depth of the Volume.
+@return A pointer to the 1D array of image data.
+*/
 unsigned char* Volume::trans_volume(int w, int h, int c, int d) {
     unsigned char* data_1 = new unsigned char[w * h * c * d];
     for (int i = 0; i < d; i++) {
@@ -31,7 +75,12 @@ unsigned char* Volume::trans_volume(int w, int h, int c, int d) {
     return data_1;
 }
 
-// Adds a stack of images to the Volume by loading them from a folder with order
+/**
+
+Adds a stack of images to the Volume by loading them from a folder with order.
+
+@param[in] folderPath The file path of the folder containing the images.
+*/
 void Volume::addImageFolder(const char* folderPath) {
     std::vector<std::filesystem::path> file_paths;
 
@@ -59,7 +108,13 @@ void Volume::addImageFolder(const char* folderPath) {
     }
 }
 
-// Returns a specific image from the Volume by index
+/**
+
+Returns a specific image from the Volume by index.
+@param[in] i The index of the image to return.
+@return A constant reference to the Image object.
+@throws std::out_of_range If the index is out of range.
+*/
 const Image& Volume::getImage(int i) {
     if (i >= images.size()) {
         throw std::out_of_range("Image index out of range");
@@ -69,25 +124,41 @@ const Image& Volume::getImage(int i) {
     }
 }
 
-// Returns a constant reference to the list of images in the Volume
+/**
+
+@brief Returns a constant reference to the list of images in the Volume.
+@return A constant reference to the list of images in the Volume
+*/
 const std::vector<Image>& Volume::getImageList() const {
     return images;
 }
 
-// Returns the number of images in the Volume
+/**
+
+@brief Returns the number of images in the Volume.
+@return The number of images in the Volume
+*/
 int Volume::get_size() {
     return images.size();
 }
 
-// Destructor for the Volume class, frees image memory
+/**
+
+@brief Destructor for the Volume class, frees image memory.
+*/
 Volume::~Volume() {
     for (auto& img : images) {
         stbi_image_free(img.data);
     }
 }
 
-// Compares two file paths based on their numeric values in the last four substrings
-// Throw an exception if requirements are not met
+/**
+* @brief Compares two file paths based on their numeric values in the last four substrings.
+* @param[in] a The first file path to compare
+* @param[in] b The second file path to compare
+* @return true if the numeric value of a is less than that of b, false otherwise
+* @throw std::invalid_argument if the last four substrings of either file path do not contain digits
+*/
 bool Volume::sort_file(const std::filesystem::path& a, const std::filesystem::path& b) {
     std::string a_st = a.stem().string();
     std::string b_st = b.stem().string();
@@ -103,8 +174,12 @@ bool Volume::sort_file(const std::filesystem::path& a, const std::filesystem::pa
     return a_ < b_;
 }
 
-// Sorts a vector of file paths using the sort_file comparison function
-// Catch an exception from sort_file to exit
+
+/**
+ * @brief Sorts a vector of file paths using the sort_file comparison function.
+ * @param[in,out] file_paths The vector of file paths to sort
+ * @throw std::invalid_argument if the sort_file function throws an exception
+ */
 void Volume::file_sort(std::vector<std::filesystem::path>& file_paths) {
     try {
         for (size_t i = 0; i < file_paths.size(); ++i) {
